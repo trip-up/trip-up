@@ -20,8 +20,8 @@ app.get(`${ROUTEBASE}/about`, (req, res) => {
 
 // Error catching
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandlers')
-app.use(notFoundHandler)
-app.use(errorHandler)
+app.use(notFoundHandler) // 404 error
+app.use(errorHandler) //500 error
 
 // Export server
 let isRunning = false
