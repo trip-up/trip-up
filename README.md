@@ -22,7 +22,7 @@ Explanation of app
 
 
 ### Data Flow
-![UML](./TripUpUML.jpeg)
+![UML](readme_assets/TripUpUML.jpeg)
 
 ### Authors
  Tyler Sayvetz, Cait Rowland, Kevin Dreyer, and Susanna Lakey
