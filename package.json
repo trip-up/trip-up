@@ -1,0 +1,23 @@
+{
+  "name": "trip-up",
+  "version": "1.0.0",
+  "description": "Organization app for planning group travel",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trip-up/trip-up.git"
+  },
+  "author": "Cait Rowland, Tyler Sayvetz, Kevin Dreyer, Susanna Lakey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trip-up/trip-up/issues"
+  },
+  "homepage": "https://github.com/trip-up/trip-up#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sequelize": "^5.21.5"
+  }
+}
