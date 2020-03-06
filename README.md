@@ -18,18 +18,17 @@ Explanation of app
 * How to get the project started
 
 ### Usage
+* Images of usage of the app
 
-* Pictures of usage of the app
-- ![UML](./TripUpUML.jpeg)
 
 ### Data Flow
-Image of data model goes here
+- ![UML](./TripUpUML.jpeg)
 
 ### Authors
  Tyler Sayvetz, Cait Rowland, Kevin Dreyer, and Susanna Lakey
 
 
-
-
 #### Resources
 * [Trello Board](https://trello.com/b/7nNHZZws/tripup)
+* [Lucid Chart](https://www.lucidchart.com/pages/database-diagram/database-models)
+
