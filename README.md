@@ -20,6 +20,7 @@ Explanation of app
 ### Usage
 
 * Pictures of usage of the app
+- ![UML](./TripUpUML.jpeg)
 
 ### Data Flow
 Image of data model goes here
