@@ -6,10 +6,10 @@ module.exports = function (sequelize) {
 
   Role.init({
     name: { type: Sequelize.STRING },
-    create: { type: Sequelize.BOOLEAN },
-    read: { type: Sequelize.BOOLEAN },
-    update: { type: Sequelize.BOOLEAN },
-    delete: { type: Sequelize.BOOLEAN }
+    create: { type: Sequelize.BOOLEAN, defaultValue: false },
+    read: { type: Sequelize.BOOLEAN, defaultValue: false },
+    update: { type: Sequelize.BOOLEAN, defaultValue: false },
+    delete: { type: Sequelize.BOOLEAN, defaultValue: false }
   }, {
     sequelize: sequelize,
     modelName: 'role',
