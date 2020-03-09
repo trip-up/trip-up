@@ -1,7 +1,8 @@
-// Import packages
+/** @module app */
+/** Import packages */
 const express = require('express')
 
-// Setup express app
+/** Setup express app */
 const app = express()
 
 // Middleware
