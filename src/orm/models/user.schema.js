@@ -1,3 +1,4 @@
+
 /**
  * @file "orm/models/user.schema.js"
  * @requires Sequelize
@@ -20,6 +21,7 @@ module.exports = function (sequelize) {
    */
   User.init({
     email: { type: Sequelize.STRING },
+    password: {type: Sequelize.STRING},
     name: { type: Sequelize.STRING },
     city: { type: Sequelize.STRING },
     phone: { type: Sequelize.STRING },
@@ -29,6 +31,7 @@ module.exports = function (sequelize) {
     modelName: 'user',
     freezeTableName: true
   });
+
   User.associate = function () {
     User.belongsTo(sequelize.model.role, { foreignKey: 'role_id' });
   }
