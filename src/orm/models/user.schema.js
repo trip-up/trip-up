@@ -1,6 +1,10 @@
 const Sequelize = require('sequelize')
-
-module.exports = function(sequelize) {
+/**
+ * Export a function that can be called with a sequelize connection obj to instantiate the class User, which is a Sequelize Model.
+ * 
+ * Add associate() prototype function, which can be called to add table associations. 
+ */
+module.exports = function (sequelize) {
   class User extends Sequelize.Model { }
 
   User.init({
@@ -15,20 +19,11 @@ module.exports = function(sequelize) {
     freezeTableName: true
   });
 
-  User.associate = function() {
-    User.belongsTo(sequelize.model.role, { foreignKey: 'role_id'});
+  User.associate = function () {
+    User.belongsTo(sequelize.model.role, { foreignKey: 'role_id' });
   }
 
   return User;
 }
-
-
-
-
-// User.belongsTo(Trip, { foreign_key: 'trip_id' });
-
-// roles.findAll().then((results) => {
-//   console.log(results.length)
-// })
 
 

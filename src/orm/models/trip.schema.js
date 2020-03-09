@@ -1,6 +1,11 @@
 const Sequelize = require('sequelize')
 
-module.exports = function(sequelize) {
+/**
+ * Export a function that can be called with a sequelize connection obj to instantiate the class Trip, which is a Sequelize Model.
+ * 
+ * Add associate() prototype function, which can be called to add table associations. 
+ */
+module.exports = function (sequelize) {
   class Trip extends Sequelize.Model { }
 
   Trip.init({
@@ -17,16 +22,8 @@ module.exports = function(sequelize) {
     freezeTableName: true
   })
 
-  Trip.associate = function() {
-    Trip.belongsToMany(sequelize.models.user, {
-      through: sequelize.model.trip_has_user,
-      foreignKey: 'trip_id',
-      otherKey: 'user_id'
-    });
+  Trip.associate = function () {
   }
 
   return Trip;
 }
-
-// Trip.belongsToMany(User, { through: 'trip_has_user' });
-// Trip.hasOne(User, { foreignKey: 'coordinator_id' })

@@ -1,5 +1,6 @@
 # Config
-config/development.js
+config/development.json
+./sample.env
 
 # Logs
 logs
