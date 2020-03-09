@@ -1,4 +1,7 @@
 const Sequelize = require('sequelize')
+const jwt = require('jsonwebtoken')
+
+let SECRET = 'secret';
 /**
  * Export a function that can be called with a sequelize connection obj to instantiate the class User, which is a Sequelize Model.
  * 
@@ -9,6 +12,7 @@ module.exports = function (sequelize) {
 
   User.init({
     email: { type: Sequelize.STRING },
+    password: {type: Sequelize.STRING},
     name: { type: Sequelize.STRING },
     city: { type: Sequelize.STRING },
     phone: { type: Sequelize.STRING },
@@ -17,7 +21,7 @@ module.exports = function (sequelize) {
     sequelize,
     modelName: 'user',
     freezeTableName: true
-  });
+  })
 
   User.associate = function () {
     User.belongsTo(sequelize.model.role, { foreignKey: 'role_id' });
