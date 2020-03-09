@@ -7,6 +7,10 @@ const server = require('./src/app')
 server.start(PORT)
 
 require('dotenv').config();
-const roles = require('./src/models/role_schema')
-const trips = require('./src/models/trip_schema')
+const sequelize = require('./src/orm/index')
+
+sequelize.models.role.findAll()
+  .then(results => {
+    console.log(results)
+  })
 

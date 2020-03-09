@@ -1,0 +1,12 @@
+{
+    "database": {
+        "name": "trip_up",
+        "username": "",
+        "password": "",
+        "host": "",
+        "dialect": ""
+    },
+    "server": {
+        "port": 3000
+    }
+}
