@@ -1,3 +1,6 @@
+# Config
+config/development.js
+
 # Logs
 logs
 *.log
