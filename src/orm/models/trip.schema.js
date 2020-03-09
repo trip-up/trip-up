@@ -1,3 +1,7 @@
+/**
+ * @file orm/models/trip.schema.js
+ * @requires Sequalize
+ */
 const Sequelize = require('sequelize')
 
 /**

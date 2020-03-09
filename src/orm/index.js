@@ -15,11 +15,9 @@ const sequelize = new Sequelize(dbConfig.name, dbConfig.username, dbConfig.passw
 
 /**
  * Load the model functions and execute them.
- * By requiring the model, we pull in a function. So we make a call to that function , passing in sequelize. 
- * 
+ * By requiring the model, we pull in a function. 
+ * So we make a call to that function , passing in sequelize. 
  */
-
-
 sequelize.models = {};
 sequelize.model = sequelize.models;
 
@@ -30,7 +28,6 @@ console.log(files)
 /**
  * Pull in all model schemas within the ./models directory that end in `.schema.js`.
  * Envoke them and attach to sequelize.models object.
- * 
  */
 for (const file of files.filter((file) => file.endsWith('.schema.js'))) {
   const fileName = path.join(modelsPath, file)

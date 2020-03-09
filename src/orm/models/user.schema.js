@@ -1,3 +1,8 @@
+/**
+ * @file "orm/models/user.schema.js"
+ * @requires Sequalize
+ * @module "user.schema"
+ */
 const Sequelize = require('sequelize')
 /**
  * Export a function that can be called with a sequelize connection obj to instantiate the class User, which is a Sequelize Model.
@@ -6,7 +11,7 @@ const Sequelize = require('sequelize')
  */
 module.exports = function (sequelize) {
   class User extends Sequelize.Model { }
-
+  /** */
   User.init({
     email: { type: Sequelize.STRING },
     name: { type: Sequelize.STRING },
