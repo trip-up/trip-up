@@ -9,7 +9,7 @@ module.exports = function (sequelize) {
 
   User.init({
     email: { type: Sequelize.STRING },
-    name: { type: Sequelize.STRING },
+    name: { type: Sequelize.STRING, unique: true },
     city: { type: Sequelize.STRING },
     phone: { type: Sequelize.STRING },
     picture: { type: Sequelize.STRING },

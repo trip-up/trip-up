@@ -5,7 +5,7 @@ module.exports = function (sequelize) {
   class Role extends Sequelize.Model { }
 
   Role.init({
-    name: { type: Sequelize.STRING },
+    name: { type: Sequelize.STRING, unique: true },
     create: { type: Sequelize.BOOLEAN, defaultValue: false },
     read: { type: Sequelize.BOOLEAN, defaultValue: false },
     update: { type: Sequelize.BOOLEAN, defaultValue: false },
