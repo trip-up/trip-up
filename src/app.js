@@ -1,6 +1,7 @@
 /** 
  * @file app.js
  * @author Trip-Up team
+ * @requires express
 */
 
 const express = require('express')

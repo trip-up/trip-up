@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: orm/models/event.schema.js</title>
+    <title>JSDoc: Module: orm/index</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,46 +17,124 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: orm/models/event.schema.js</h1>
+    <h1 class="page-title">Module: orm/index</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const Sequelize = require('sequelize')
+        
+    
+</header>
 
-/**
- * Export a function that can be called with a sequelize connection obj to instantiate the class Event, which is a Sequelize Model.
- * 
- * Add associate() prototype function, which can be called to add table associations. 
- */
-module.exports = function (sequelize) {
-  class Event extends Sequelize.Model { }
+<article>
+    <div class="container-overview">
+    
+        
 
-  Event.init({
-    name: { type: Sequelize.STRING },
-    start_day: { type: Sequelize.DATE },
-    end_day: { type: Sequelize.DATE },
+        
+    
+    </div>
 
-  }, {
-    sequelize,
-    freezeTableName: true,
-    modelName: 'event',
-  })
+    
 
-  Event.associate = function () {
-    Event.belongsTo(sequelize.models.trip, { foreignKey: 'trip_id' })
-  }
+    
+        <h3 class="subsection-title">Requires</h3>
 
-  return Event
+        <ul>
+            <li>module:Sequalize</li>
+        </ul>
+    
 
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="~sequelize"><span class="type-signature">(inner, constant) </span>sequelize<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Instantiate our sequelize object
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="orm_index.js.html">orm/index.js</a>, <a href="orm_index.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

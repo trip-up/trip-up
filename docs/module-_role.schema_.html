@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: "user.schema"</title>
+    <title>JSDoc: Module: "role.schema"</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: "user.schema"</h1>
+    <h1 class="page-title">Module: "role.schema"</h1>
 
     
 
@@ -38,9 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Export a function that can be called with a sequelize connection obj to instantiate the class User, which is a Sequelize Model.  
-<br> Add associate() prototype function, which can be called to add table associations. 
-DB user schema</div>
+            <div class="description">"orm/models/role.schema.js"</div>
         
 
         
@@ -81,29 +79,6 @@ DB user schema</div>
 
         <tr>
             
-                <td class="name"><code>email</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">email address for user</td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>name</code></td>
             
 
@@ -120,20 +95,20 @@ DB user schema</div>
 
             
 
-            <td class="description last">name for user</td>
+            <td class="description last">for role</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>city</code></td>
+                <td class="name"><code>create</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -143,20 +118,20 @@ DB user schema</div>
 
             
 
-            <td class="description last">city for user</td>
+            <td class="description last">can role create</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>phone</code></td>
+                <td class="name"><code>read</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -166,20 +141,20 @@ DB user schema</div>
 
             
 
-            <td class="description last">phone number for user</td>
+            <td class="description last">can role read</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>picture</code></td>
+                <td class="name"><code>update</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -189,7 +164,30 @@ DB user schema</div>
 
             
 
-            <td class="description last">picture</td>
+            <td class="description last">can role update</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>delete</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">can role delete</td>
         </tr>
 
     
@@ -230,7 +228,7 @@ DB user schema</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="orm_models_user.schema.js.html">orm/models/user.schema.js</a>, <a href="orm_models_user.schema.js.html#line1">line 1</a>
+        <a href="orm_models_role.schema.js.html">orm/models/role.schema.js</a>, <a href="orm_models_role.schema.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -270,7 +268,7 @@ DB user schema</div>
         <h3 class="subsection-title">Requires</h3>
 
         <ul>
-            <li>module:Sequelize</li>
+            <li>module:Sequalize</li>
         </ul>
     
 

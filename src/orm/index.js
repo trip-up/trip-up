@@ -1,3 +1,7 @@
+/**
+ * @requires Sequalize
+ * @module orm/index
+ */
 const Sequelize = require('sequelize')
 const fs = require('fs');
 const path = require('path')
@@ -16,7 +20,8 @@ const sequelize = new Sequelize(dbConfig.name, dbConfig.username, dbConfig.passw
 /**
  * Load the model functions and execute them.
  * By requiring the model, we pull in a function. 
- * So we make a call to that function , passing in sequelize. 
+ * So we make a call to that function , passing in sequelize.
+ * 
  */
 sequelize.models = {};
 sequelize.model = sequelize.models;
