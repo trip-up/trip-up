@@ -20,9 +20,9 @@ module.exports = function (sequelize) {
 
    */
   User.init({
-    email: { type: Sequelize.STRING },
+    email: { type: Sequelize.STRING, unique: true },
+    name: { type: Sequelize.STRING, unique: true },
     password: {type: Sequelize.STRING},
-    name: { type: Sequelize.STRING },
     city: { type: Sequelize.STRING },
     phone: { type: Sequelize.STRING },
     picture: { type: Sequelize.STRING },
