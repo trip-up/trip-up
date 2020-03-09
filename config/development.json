@@ -1,9 +1,0 @@
-{
-  "database": {
-    "name": "trip_up",
-    "username": "root",
-    "password": "Seagal27!",
-    "host": "localhost",
-    "dialect": "mysql"
-  }
-}
