@@ -1,7 +1,11 @@
-// Import packages
+/** 
+ * @file app.js
+ * @author Trip-Up team
+ * @requires express
+*/
+
 const express = require('express')
 
-// Setup express app
 const app = express()
 
 // Middleware

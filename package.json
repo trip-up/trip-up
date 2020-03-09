@@ -4,7 +4,8 @@
   "description": "Organization app for planning group travel",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "supertest": "^4.0.2"
   },
   "devDependencies": {
-    "jest": "^25.1.0"
+    "jest": "^25.1.0",
+    "jsdoc": "^3.6.3"
   }
 }

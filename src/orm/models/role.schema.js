@@ -1,3 +1,14 @@
+/**
+ * @file "orm/models/role.schema.js"
+ * @requires Sequalize
+ * @module "role.schema"
+ * @param {string} name for role
+ * @param {boolean} create - can role create
+ * @param {boolean} read - can role read
+ * @param {boolean} update - can role update
+ * @param {boolean} delete - can role delete
+ */
+
 const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
