@@ -1,6 +1,5 @@
 # Config
 config/development.json
-./sample.env
 
 # Logs
 logs
