@@ -8,7 +8,20 @@ const app = express()
 // Middleware
 app.use(express.json())
 
+const authRouter = require('./routes/users-routes')
+
+app.use(authRouter)
+
 // Routes
+
+//Sign up
+//Sign in
+//Get all users 
+//Get one user 
+//Post route to create a trip 
+//Update route to update trip 
+//Delete route to delete trip 
+//Delete users route for admin 
 
 // Test route
 const ROUTEBASE = process.env.ROUTEBASE
@@ -30,7 +43,7 @@ module.exports = {
   server: app, 
   start: function (port) {
     if (!isRunning) {
-      app.listen(port, () => {
+      app.listen(port, (port) => {
         isRunning = true
         console.log(`Server is listening on ${port}`)
       })
