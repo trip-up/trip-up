@@ -1,26 +1,22 @@
-// Import packages
+/** 
+ * @file app.js
+ * @author Trip-Up team
+ * @requires express
+*/
+
 const express = require('express')
 
-// Setup express app
 const app = express()
 
 // Middleware
 app.use(express.json())
 
-const authRouter = require('./routes/users-routes')
+// Routes
+const authRouter = require('./routes/users/users-routes')
+const roleRouter = require('./routes/roles/roles-route')
 
 app.use(authRouter)
-
-// Routes
-
-//Sign up
-//Sign in
-//Get all users 
-//Get one user 
-//Post route to create a trip 
-//Update route to update trip 
-//Delete route to delete trip 
-//Delete users route for admin 
+app.use(roleRouter)
 
 // Test route
 const ROUTEBASE = process.env.ROUTEBASE
