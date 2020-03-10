@@ -4,7 +4,7 @@
   "description": "Organization app for planning group travel",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json"
   },
   "repository": {
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "jest": "^25.1.0",
-    "jsdoc": "^3.6.3"
+    "jsdoc": "^3.6.3",
+    "sequelize-mock": "^0.10.2"
   }
 }

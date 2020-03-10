@@ -30,9 +30,5 @@ module.exports = function (sequelize) {
     freezeTableName: true
   })
 
-  Trip.associate = function () {
-    Trip.belongsTo(sequelize.models.user, { foreignKey: 'organizer_user_id' })
-  }
-
   return Trip;
 }

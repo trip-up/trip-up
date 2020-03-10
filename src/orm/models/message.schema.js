@@ -6,6 +6,7 @@ const Sequelize = require('sequelize')
  * Add associate() prototype function, which can be called to add table associations. 
  */
 module.exports = function (sequelize) {
+
   class Message extends Sequelize.Model { }
 
   Message.init({
@@ -14,13 +15,7 @@ module.exports = function (sequelize) {
     sequelize,
     freezeTableName: true,
     modelName: 'message',
-  })
-
-  Message.associate = function () {
-    Message.belongsTo(sequelize.models.trip, { foreignKey: 'trip_id' })
-    Message.belongsTo(sequelize.models.user, { foreignKey: 'sender_user_id' })
-    Message.belongsTo(sequelize.models.user, { foreignKey: 'recipient_user_id' })
-  }
+  });
 
   return Message
 
