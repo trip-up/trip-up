@@ -25,7 +25,6 @@ async function addRole (req, res, next) {
             res.status(201).json(role.role)
         })
         .catch(next)
-
 }
 
 /**
@@ -41,5 +40,28 @@ async function getRole (req, res, next) {
         .catch(next)
 }
 
+/**
+ * update Role
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+async function updateRole (req, res, next) {
+    await Role.models.role.update(
+        {name: req.body.name},
+        {returning: true, where: {id: req.params.id} }
+    )
+    .then(function (result) {
+        console.log(result)
+        res.status(201).json(result)
+    })
+    .catch(next)
+}
 
-module.exports = {addRole, getRole}
+        // {create: req.body.create},
+        // {read: req.body.read},
+        // {update: req.body.update},
+        // console.log('updatedRole',updatedRole)
+        // res.status(201).json(updatedRole)
+
+module.exports = {addRole, getRole, updateRole}
