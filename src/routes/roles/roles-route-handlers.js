@@ -47,11 +47,13 @@ async function getRole (req, res, next) {
  * @param {*} next 
  */
 async function updateRole (req, res, next) {
-    await Role.models.role.update(
-        {name: req.body.name},
-        // {create: req.body.create},
-        // {read: req.body.read},
-        // {update: req.body.update},
+    await Role.models.role.update({
+        name: req.body.name,
+        create: req.body.create,
+        read: req.body.read,
+        update: req.body.update,
+        delete: req.body.delete,
+        },
         {returning: true, where: {id: req.params.id} }
     )
     .then(function (result) {
