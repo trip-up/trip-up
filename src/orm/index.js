@@ -19,14 +19,15 @@ const TripHasUser = createTripHasUser(sequelize);
 const Trip = createTrip(sequelize);
 const User = createUserModel(sequelize);
 
-User.belongsTo(Role, { foreignKey: 'role_id' });
+
 Event.belongsTo(Trip, { foreignKey: 'trip_id' });
 Message.belongsTo(Trip, { foreignKey: 'trip_id' });
 Message.belongsTo(User, { foreignKey: 'sender_user_id' });
 Message.belongsTo(User, { foreignKey: 'recipient_user_id' });
-TripHasUser.belongsTo(User, { foreignKey: 'user_id' })
-TripHasUser.belongsTo(Trip, { foreignKey: 'trip_id' })
-Trip.belongsTo(User, { foreignKey: 'organizer_user_id' });
-// Role.belongsToMany(User);
+// TripHasUser.belongsTo(User, { foreignKey: 'user_id' })
+// TripHasUser.belongsTo(Trip, { foreignKey: 'trip_id' })
+Trip.belongsToMany(User, { through: TripHasUser, as: 'members', foreignKey: 'trip_id', otherKey: 'user_id' })
+Trip.belongsTo(User, { foreignKey: 'organizer_user_id', as: 'organizer' });
+User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 
 module.exports = { sequelize, Event, Message, Role, TripHasUser, Trip, User };

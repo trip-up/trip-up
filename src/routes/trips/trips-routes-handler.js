@@ -6,4 +6,22 @@ function createTrip(req, res, next) {
   }
 }
 
-module.exports = { createTrip };
+function getAllTrips(req, res, next) {
+  try {
+    res.status(200).json('Listing All Trips')
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+
+function getOneTrip(req, res, next) {
+  try {
+    res.status(200).json('Listing One Trip')
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { createTrip, getAllTrips, getOneTrip };

@@ -23,7 +23,6 @@ module.exports = function (sequelize) {
     password: { type: Sequelize.STRING },
     city: { type: Sequelize.STRING },
     phone: { type: Sequelize.STRING },
-    // change to picture_url
     picture: { type: Sequelize.STRING },
   }, {
     sequelize,

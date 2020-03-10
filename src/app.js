@@ -15,10 +15,12 @@ app.use(express.json())
 const authRouter = require('./routes/users/users-routes')
 const roleRouter = require('./routes/roles/roles-route')
 const tripsRouter = require('./routes/trips/trips-routes')
+const eventRouter = require('./routes/events/events-route')
 
 app.use(authRouter)
 app.use(roleRouter)
 app.use(tripsRouter);
+app.use(eventRouter);
 
 // Test route
 // const ROUTEBASE = process.env.ROUTEBASE

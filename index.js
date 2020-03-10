@@ -2,7 +2,7 @@
 require('dotenv').config()
 const { PORT } = process.env
 
-const { sequelize } = require('./src/orm/index');
+const { sequelize, Trip, User } = require('./src/orm/index');
 
 sequelize.authenticate()
   .then(() => {
@@ -20,3 +20,28 @@ sequelize.authenticate()
   })
 
 
+const test = async () => {
+
+
+  return await Trip.findByPk(1, {
+    include: {
+      association: 'members',
+      through: {
+        attributes: []
+      },
+      attributes: {
+        exclude: ['password']
+      },
+      include: {
+        association: 'role',
+        where: { name: 'admin' },
+        attributes: []
+      }
+    }
+  })
+}
+
+test()
+  .then(result => {
+    console.log('result', JSON.parse(JSON.stringify(result.dataValues)))
+  })

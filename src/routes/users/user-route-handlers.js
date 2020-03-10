@@ -8,19 +8,25 @@ let SECRET = process.env.SECRET
 //Sign up 
 
 async function signUp(req, res, next) {
-  const newUser = await User
-    .findOrCreate({
-      where: {
-        email: req.body.email,
-        name: req.body.name,
-        city: req.body.city,
-        phone: req.body.phone,
-        role_id: 2
-      }
-    })
-  const { id, name, email } = newUser[0].dataValues
-  const token = generateToken(id, name, email)
-  res.status(201).json({ token })
+  try {
+    const newUser = await User
+      .findOrCreate({
+        where: {
+          email: req.body.email,
+          name: req.body.name,
+          password: req.body.password,
+          city: req.body.city,
+          phone: req.body.phone,
+          // role_id: 2
+        }
+      })
+
+    const { id, name, email } = newUser[0].dataValues
+    const token = generateToken(id, name, email)
+    res.status(201).json({ token })
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 const generateToken = function (id, name, email) {
