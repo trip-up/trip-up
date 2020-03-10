@@ -10,6 +10,7 @@ const createUserModel = require('./models/user.schema');
 const sequelize = new Sequelize('trip_up', 'root', process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'mysql',
+  logging: false
 })
 
 const Event = createEventModel(sequelize);
