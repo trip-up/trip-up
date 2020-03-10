@@ -6,4 +6,14 @@ function addEvent(req, res, next) {
   }
 }
 
-module.exports = { addEvent };
+
+function getOneEvent(req, res, next) {
+  try {
+    res.status(200).json('Results')
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+module.exports = { addEvent, getOneEvent };

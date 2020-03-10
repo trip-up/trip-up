@@ -1,8 +1,10 @@
-const express = require('express')
+const express = require('express');
 const eventRouter = express.Router();
 
-const { addEvent } = require('./events-route-handlers')
+const { addEvent, getOneEvent } = require('./events-route-handlers');
 
-eventRouter.post('/events', addEvent)
+eventRouter.post('/events', addEvent);
+eventRouter.get('/events/:id', getOneEvent);
+// eventRouter.get('/events/?trip_id=', getAllTripEvents);
 
-module.exports = eventRouter
+module.exports = eventRouter;
