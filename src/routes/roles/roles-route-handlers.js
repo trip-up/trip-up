@@ -1,6 +1,6 @@
 /**
  * @requires Sequalize
- * @module "roles-route"
+ * @module "roles-route-handlers"
  * @description Callback functions for Role routes
  */
 const Sequelize = require('sequelize')

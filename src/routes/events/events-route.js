@@ -1,3 +1,8 @@
+/**
+ * @requires Sequalize
+ * @module "events-route"
+ * @description routes for events
+ */
 const express = require('express')
 const eventRouter = express.Router();
 

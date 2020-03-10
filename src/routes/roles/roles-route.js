@@ -1,6 +1,7 @@
 /**
  * @requires Sequalize
- * @module "role.schema"
+ * @module "roles-route"
+ * @description CRUD routes for roles
  */
 const express = require('express')
 const roleRouter = express.Router();
