@@ -4,7 +4,7 @@
  * @description Callback functions for Role routes
  */
 const Sequelize = require('sequelize')
-const { Role } = require('../../orm')
+const { Role } = require('../../orm/index')
 
 /**
  * add Role 
@@ -43,7 +43,7 @@ async function addRole (req, res, next) {
  * @param {*} next 
  */
 async function getRole (req, res, next) {
-    await Role.models.role.findAll()
+    await Role.findAll()
         .then(function(role) {
             res.status(200).json(role)})
         .catch(next)
@@ -54,10 +54,10 @@ async function getRole (req, res, next) {
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
- * need to work on response
+ * need to work on response .models.role.
  */
 async function updateRole (req, res, next) {
-    await Role.models.role.update({
+    await Role.update({
         name: req.body.name,
         create: req.body.create,
         read: req.body.read,
@@ -81,7 +81,7 @@ async function updateRole (req, res, next) {
  * response
  */
 async function deleteRole (req, res, next) {
-    await Role.models.role.destroy({
+    await Role.destroy({
         where: {id: req.params.id}
     })
     .then(function (result) {

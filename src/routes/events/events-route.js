@@ -11,6 +11,6 @@ const { addEvent, getEventsFromTrip } = require('./events-route-handlers')
 
 eventRouter.post('/events', addEvent)
 
-eventRouter.get('/events/trip/:id', getEventsFromTrip)
+eventRouter.get('/events/:trip_id', getEventsFromTrip)
 
 module.exports = eventRouter
