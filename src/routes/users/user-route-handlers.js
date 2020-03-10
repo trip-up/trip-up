@@ -60,7 +60,4 @@ authenticateBasic = async function (email, password) {
 //       // valid => valid ? this : null
 //     // .catch(console.error)
 // }
-
-
-
 module.exports = {signUp, signIn, authenticateBasic}
