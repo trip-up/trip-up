@@ -22,6 +22,8 @@ app.use(roleRouter)
 app.use(tripsRouter);
 app.use(eventRouter);
 
+
+
 // Test route
 // const ROUTEBASE = process.env.ROUTEBASE
 // app.get(`${ROUTEBASE}/about`, (req, res) => {
@@ -30,6 +32,7 @@ app.use(eventRouter);
 //     help: 'place help here'
 //   })
 // })
+
 
 // Error catching
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandlers')
