@@ -1,6 +1,6 @@
 // const User = require('../orm/models/user.schema');
 
-const Schema = require('../../orm/index')
+const {User} = require('../../orm/index')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
@@ -9,7 +9,7 @@ const defaultRole = process.env.DEFAULTROLE
 
 //Sign up 
 async function signUp (req, res, next) {
-  const newUser = await Schema.models.user
+  const newUser = await User
         .findOrCreate({where: {
             email: req.body.email,
             name: req.body.name,
@@ -28,32 +28,8 @@ const generateToken = function(id, name, email, role_id) {
     email: email,
     name: name,
     role_id: role_id
-
-let SECRET = process.env.SECRET
-
-//Sign up 
-
-async function signUp(req, res, next) {
-  try {
-    const newUser = await User
-      .findOrCreate({
-        where: {
-          email: req.body.email,
-          name: req.body.name,
-          password: req.body.password,
-          city: req.body.city,
-          phone: req.body.phone,
-          // role_id: 2
-        }
-      })
-
-    const { id, name, email } = newUser[0].dataValues
-    console.log(id, name, email);
-    const token = generateToken(id, name, email)
-    res.status(201).json({ token })
-  } catch (err) {
-    console.log(err);
   }
+  return jwt.sign(data, SECRET)
 }
 
 //Sign in 
@@ -66,7 +42,7 @@ async function signIn (req, res, next) {
 }
 
 authenticateBasic = async function (email, password) {
-  const userFound = await Schema.models.user
+  const userFound = await User
   .findOne ({ where: {
       email:  email,}})
 ////somehwere we need to compare password to hashed password and if true send datavalues to validate 
