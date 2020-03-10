@@ -1,4 +1,5 @@
 // const User = require('../orm/models/user.schema');
+
 const Schema = require('../../orm/index')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
@@ -27,9 +28,31 @@ const generateToken = function(id, name, email, role_id) {
     email: email,
     name: name,
     role_id: role_id
+
+let SECRET = process.env.SECRET
+
+//Sign up 
+
+async function signUp(req, res, next) {
+  try {
+    const newUser = await User
+      .findOrCreate({
+        where: {
+          email: req.body.email,
+          name: req.body.name,
+          password: req.body.password,
+          city: req.body.city,
+          phone: req.body.phone,
+          // role_id: 2
+        }
+      })
+
+    const { id, name, email } = newUser[0].dataValues
+    const token = generateToken(id, name, email)
+    res.status(201).json({ token })
+  } catch (err) {
+    console.log(err.message);
   }
-  console.log(data)
-  return jwt.sign(data, SECRET)
 }
 
 //Sign in 
@@ -49,6 +72,7 @@ authenticateBasic = async function (email, password) {
   return userFound.dataValues
 }
 
+
 ///example of how compare password is strucuted 
 // const comparePassword = async function (password1, password2) {
 //   const validated = await bcrypt.compare(password1, password2)
@@ -61,3 +85,4 @@ authenticateBasic = async function (email, password) {
 //     // .catch(console.error)
 // }
 module.exports = {signUp, signIn, authenticateBasic}
+
