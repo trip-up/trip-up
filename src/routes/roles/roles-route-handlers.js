@@ -1,8 +1,12 @@
 const Sequelize = require('sequelize')
 const Role = require('../../orm/index')
 
-//add Role 
-
+/**
+ * add Role 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 async function addRole (req, res, next) {
 
     await Role.models.role 
@@ -24,4 +28,18 @@ async function addRole (req, res, next) {
 
 }
 
-module.exports = {addRole}
+/**
+ * get Role
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+async function getRole (req, res, next) {
+    await Role.models.role.findAll()
+        .then(function(role) {
+            res.status(200).json(role)})
+        .catch(next)
+}
+
+
+module.exports = {addRole, getRole}
