@@ -1,3 +1,8 @@
+/**
+ * @requires Sequalize
+ * @module "roles-route"
+ * @description Callback functions for Role routes
+ */
 const Sequelize = require('sequelize')
 const Role = require('../../orm/index')
 

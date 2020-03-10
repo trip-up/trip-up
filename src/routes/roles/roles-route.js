@@ -1,5 +1,7 @@
-
-
+/**
+ * @requires Sequalize
+ * @module "role.schema"
+ */
 const express = require('express')
 const roleRouter = express.Router();
 
