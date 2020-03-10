@@ -9,10 +9,10 @@
  * @param {boolean} delete - can role delete
  */
 
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
 module.exports = function (sequelize) {
-  
+
   class Role extends Sequelize.Model { }
 
   Role.init({
@@ -27,12 +27,5 @@ module.exports = function (sequelize) {
     freezeTableName: true
   })
 
-  Role.associate = function () {
-    console.log("ASSOCIATE!")
-
-    //in here we will do association functions
-    // Role.belongsToMany(Sequelize.model.user);
-  }
-
   return Role;
-}
+};

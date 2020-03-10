@@ -1,58 +1,32 @@
-/**
- * @requires Sequalize
- * @module orm/index
- */
 const Sequelize = require('sequelize')
-const fs = require('fs');
-const path = require('path')
-const config = require('config')
 
-const dbConfig = config.get('database')
+const createEventModel = require('./models/event.schema');
+const createMessageModel = require('./models/message.schema');
+const createRoleModel = require('./models/role.schema');
+const createTripHasUser = require('./models/trip_has_user.schema');
+const createTrip = require('./models/trip.schema');
+const createUserModel = require('./models/user.schema');
 
-/**
- * Instantiate our sequelize object
- */
-const sequelize = new Sequelize(dbConfig.name, dbConfig.username, dbConfig.password, {
-  host: dbConfig.host,
-  dialect: dbConfig.dialect,
+const sequelize = new Sequelize('trip_up', 'root', process.env.DB_PASSWORD, {
+  host: 'localhost',
+  dialect: 'mysql',
 })
 
-/**
- * Load the model functions and execute them.
- * By requiring the model, we pull in a function. 
- * So we make a call to that function , passing in sequelize.
- * 
- */
-sequelize.models = {};
-sequelize.model = sequelize.models;
+const Event = createEventModel(sequelize);
+const Message = createMessageModel(sequelize);
+const Role = createRoleModel(sequelize);
+const TripHasUser = createTripHasUser(sequelize);
+const Trip = createTrip(sequelize);
+const User = createUserModel(sequelize);
 
-const modelsPath = path.join(__dirname, 'models');
-const files = fs.readdirSync(modelsPath);
+User.belongsTo(Role, { foreignKey: 'role_id' });
+Event.belongsTo(Trip, { foreignKey: 'trip_id' });
+Message.belongsTo(Trip, { foreignKey: 'trip_id' });
+Message.belongsTo(User, { foreignKey: 'sender_user_id' });
+Message.belongsTo(User, { foreignKey: 'recipient_user_id' });
+TripHasUser.belongsTo(User, { foreignKey: 'user_id' })
+TripHasUser.belongsTo(Trip, { foreignKey: 'trip_id' })
+Trip.belongsTo(User, { foreignKey: 'organizer_user_id' });
+// Role.belongsToMany(User);
 
-console.log(files)
-/**
- * Pull in all model schemas within the ./models directory that end in `.schema.js`.
- * Envoke them and attach to sequelize.models object.
- */
-for (const file of files.filter((file) => file.endsWith('.schema.js'))) {
-  const fileName = path.join(modelsPath, file)
-  const modelInstance = require(fileName)(sequelize);
-  
-  //add to sequelize.models container obj.
-  sequelize.models[modelInstance.name] = modelInstance;
-}
-
-/**
- * Once the models are all loaded, we can associate them
- */
-Object.values(sequelize.models).forEach(model => {
-  if (model.associate) { model.associate(); }
-})
-
-sequelize.authenticate()
-  .then(() => console.log('connection up!'))
-  .catch(err => console.error(err))
-
-sequelize.sync();
-
-module.exports = sequelize;
+module.exports = { sequelize, Event, Message, Role, TripHasUser, Trip, User };
