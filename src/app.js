@@ -18,14 +18,6 @@ const roleRouter = require('./routes/roles/roles-route')
 app.use(authRouter)
 app.use(roleRouter)
 
-// Test route
-const ROUTEBASE = process.env.ROUTEBASE
-app.get(`${ROUTEBASE}/about`, (req, res) => {
-  res.status(200).json({ 
-    about:'Trip-Up is an API to help you plan all your group trips!',
-    help:'place help here'
-  })
-})
 
 // Error catching
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandlers')
