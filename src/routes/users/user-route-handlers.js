@@ -8,28 +8,32 @@ const SECRET = process.env.SECRET
 const defaultRole = process.env.DEFAULTROLE
 
 //Sign up 
-async function signUp (req, res, next) {
+async function signUp(req, res, next) {
   const newUser = await Schema.models.user
-        .findOrCreate({where: {
-            email: req.body.email,
-            name: req.body.name,
-            city: req.body.city,
-            password: await bcrypt.hash(req.body.password, 5),
-            phone: req.body.phone,
-            role_id: 2}})
-            const {id, name, email, role_id} = newUser[0].dataValues
-            const token = generateToken(id, name, email, role_id)
-            res.status(201).json({ token })
+    .findOrCreate({
+      where: {
+        email: req.body.email,
+        name: req.body.name,
+        city: req.body.city,
+        password: await bcrypt.hash(req.body.password, 5),
+        phone: req.body.phone,
+        role_id: 2
+      }
+    })
+  const { id, name, email, role_id } = newUser[0].dataValues
+  const token = generateToken(id, name, email, role_id)
+  res.status(201).json({ token })
 }
 
-const generateToken = function(id, name, email, role_id) {
+const generateToken = function (id, name, email, role_id) {
   const data = {
     id: id,
     email: email,
     name: name,
     role_id: role_id
-
-let SECRET = process.env.SECRET
+  }
+  return jwt.sign(data, SECRET)
+}
 
 //Sign up 
 
@@ -58,18 +62,21 @@ async function signUp(req, res, next) {
 
 //Sign in 
 
-async function signIn (req, res, next) {
-  const {id, name, role_id, email} = tokenData
+async function signIn(req, res, next) {
+  const { id, name, role_id, email } = tokenData
   console.log('token:', id, name, email, role_id)
   let newToken = generateToken(id, name, email, role_id)
-  res.status(200).json({newToken})
+  res.status(200).json({ newToken })
 }
 
 authenticateBasic = async function (email, password) {
   const userFound = await Schema.models.user
-  .findOne ({ where: {
-      email:  email,}})
-////somehwere we need to compare password to hashed password and if true send datavalues to validate 
+    .findOne({
+      where: {
+        email: email,
+      }
+    })
+  ////somehwere we need to compare password to hashed password and if true send datavalues to validate 
   return userFound.dataValues
 }
 
@@ -85,5 +92,4 @@ authenticateBasic = async function (email, password) {
 //       // valid => valid ? this : null
 //     // .catch(console.error)
 // }
-module.exports = {signUp, signIn, authenticateBasic}
-
+module.exports = { signUp, signIn, authenticateBasic }
