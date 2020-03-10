@@ -1,6 +1,6 @@
 // const User = require('../orm/models/user.schema');
 
-const Schema = require('../../orm/index')
+const {User} = require('../../orm/index')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
@@ -8,21 +8,18 @@ const SECRET = process.env.SECRET
 const defaultRole = process.env.DEFAULTROLE
 
 //Sign up 
-async function signUp(req, res, next) {
-  const newUser = await Schema.models.user
-    .findOrCreate({
-      where: {
-        email: req.body.email,
-        name: req.body.name,
-        city: req.body.city,
-        password: await bcrypt.hash(req.body.password, 5),
-        phone: req.body.phone,
-        role_id: 2
-      }
-    })
-  const { id, name, email, role_id } = newUser[0].dataValues
-  const token = generateToken(id, name, email, role_id)
-  res.status(201).json({ token })
+async function signUp (req, res, next) {
+  const newUser = await User
+        .findOrCreate({where: {
+            email: req.body.email,
+            name: req.body.name,
+            city: req.body.city,
+            password: await bcrypt.hash(req.body.password, 5),
+            phone: req.body.phone,
+            role_id: 2}})
+            const {id, name, email, role_id} = newUser[0].dataValues
+            const token = generateToken(id, name, email, role_id)
+            res.status(201).json({ token })
 }
 
 const generateToken = function (id, name, email, role_id) {
@@ -35,31 +32,6 @@ const generateToken = function (id, name, email, role_id) {
   return jwt.sign(data, SECRET)
 }
 
-//Sign up 
-
-async function signUp(req, res, next) {
-  try {
-    const newUser = await User
-      .findOrCreate({
-        where: {
-          email: req.body.email,
-          name: req.body.name,
-          password: req.body.password,
-          city: req.body.city,
-          phone: req.body.phone,
-          // role_id: 2
-        }
-      })
-
-    const { id, name, email } = newUser[0].dataValues
-    console.log(id, name, email);
-    const token = generateToken(id, name, email)
-    res.status(201).json({ token })
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 //Sign in 
 
 async function signIn(req, res, next) {
@@ -70,13 +42,10 @@ async function signIn(req, res, next) {
 }
 
 authenticateBasic = async function (email, password) {
-  const userFound = await Schema.models.user
-    .findOne({
-      where: {
-        email: email,
-      }
-    })
-  ////somehwere we need to compare password to hashed password and if true send datavalues to validate 
+  const userFound = await User
+  .findOne ({ where: {
+      email:  email,}})
+////somehwere we need to compare password to hashed password and if true send datavalues to validate 
   return userFound.dataValues
 }
 
