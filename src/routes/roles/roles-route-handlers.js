@@ -6,6 +6,7 @@ const Role = require('../../orm/index')
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
+ * need to reject duplicate roles
  */
 async function addRole (req, res, next) {
 
@@ -45,6 +46,7 @@ async function getRole (req, res, next) {
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
+ * need to work on response
  */
 async function updateRole (req, res, next) {
     await Role.models.role.update({
@@ -63,4 +65,23 @@ async function updateRole (req, res, next) {
     .catch(next)
 }
 
-module.exports = {addRole, getRole, updateRole}
+/**
+ * delete Role
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * response
+ */
+async function deleteRole (req, res, next) {
+    await Role.models.role.destroy({
+        where: {id: req.params.id}
+    })
+    .then(function (result) {
+        console.log('deleted',result)
+        res.status(201).json(result)
+
+    })
+    .catch(next)
+}
+
+module.exports = {addRole, getRole, updateRole, deleteRole}
