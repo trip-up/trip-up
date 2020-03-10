@@ -16,13 +16,11 @@ const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
   class User extends Sequelize.Model { }
-  /**
 
-   */
   User.init({
     email: { type: Sequelize.STRING, unique: true },
     name: { type: Sequelize.STRING, unique: true },
-    password: {type: Sequelize.STRING},
+    password: { type: Sequelize.STRING },
     city: { type: Sequelize.STRING },
     phone: { type: Sequelize.STRING },
     picture: { type: Sequelize.STRING },
@@ -32,11 +30,6 @@ module.exports = function (sequelize) {
     freezeTableName: true
   });
 
-  User.associate = function () {
-    User.belongsTo(sequelize.model.role, { foreignKey: 'role_id' });
-  }
-
   return User;
-}
-
+};
 

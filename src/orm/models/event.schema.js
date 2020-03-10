@@ -12,17 +12,11 @@ module.exports = function (sequelize) {
     name: { type: Sequelize.STRING },
     start_day: { type: Sequelize.DATE },
     end_day: { type: Sequelize.DATE },
-
   }, {
     sequelize,
     freezeTableName: true,
     modelName: 'event',
   })
 
-  Event.associate = function () {
-    Event.belongsTo(sequelize.models.trip, { foreignKey: 'trip_id' })
-  }
-
-  return Event
-
+  return Event;
 }

@@ -4,7 +4,7 @@
  * @description Callback functions for Role routes
  */
 const Sequelize = require('sequelize')
-const Role = require('../../orm/index')
+const { Role } = require('../../orm')
 
 /**
  * add Role 
@@ -15,14 +15,17 @@ const Role = require('../../orm/index')
  */
 async function addRole (req, res, next) {
 
-    await Role.models.role 
-        .findOrCreate({where: {
-            name: req.body.name,
-            create: req.body.create,
-            read: req.body.read,
-            update: req.body.update,
-            delete: req.body.delete}})
-        .spread(function(role, created) {
+    await Role
+        .findOrCreate({
+            where: {
+                name: req.body.name,
+                create: req.body.create,
+                read: req.body.read,
+                update: req.body.update,
+                delete: req.body.delete
+            }
+        })
+        .spread(function (role, created) {
             console.log(role.get({
                 plain: true
             }))
