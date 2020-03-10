@@ -18,6 +18,7 @@ async function addRole (req, res, next) {
             }))
             if(created === true) console.log('created', created)
             if(created === false) console.log('Role already exists')
+            res.status(201).json(role.role)
         })
         .catch(next)
 

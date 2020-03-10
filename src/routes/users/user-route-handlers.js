@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 const Schema = require('../../orm/index')
 const jwt = require('jsonwebtoken')
 
-let SECRET = process.env(SECRET)
+let SECRET = process.env.SECRET
 
 //Sign up 
 

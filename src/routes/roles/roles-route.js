@@ -1,3 +1,5 @@
+//http post :3000/roles name=test create=true read=true update=true delete=false
+
 const express = require('express')
 const roleRouter = express.Router();
 
