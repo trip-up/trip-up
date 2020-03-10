@@ -4,8 +4,15 @@ const tripsRouter = express.Router();
 const { createTrip, getAllTrips, getOneTrip } = require('./trips-routes-handler');
 
 tripsRouter.post('/trips', createTrip);
+//query params for /alltrips should be formatted.
+//? attending=bool    coordinating=bool   
 tripsRouter.get('/trips', getAllTrips);
-tripsRouter.get('/trips/trip_id', getOneTrip);
+tripsRouter.get('/trips/:trip_id', gotHere, getOneTrip);
 
+
+function gotHere (req, res, next) {
+  console.log('got here');
+  next();
+}
 
 module.exports = tripsRouter;

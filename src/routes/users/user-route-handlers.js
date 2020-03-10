@@ -48,10 +48,11 @@ async function signUp(req, res, next) {
       })
 
     const { id, name, email } = newUser[0].dataValues
+    console.log(id, name, email);
     const token = generateToken(id, name, email)
     res.status(201).json({ token })
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 }
 

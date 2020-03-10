@@ -19,8 +19,8 @@ module.exports = function (sequelize) {
   Trip.init({
     name: { type: Sequelize.STRING },
     destination: { type: Sequelize.STRING },
-    start_day: { type: Sequelize.STRING },
-    end_day: { type: Sequelize.STRING },
+    start_day: { type: Sequelize.DATE },
+    end_day: { type: Sequelize.DATE },
     cost: { type: Sequelize.INTEGER },
     type: { type: Sequelize.STRING },
 
