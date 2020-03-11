@@ -44,6 +44,9 @@ Trip Up is an API to help you plan your group trips.  Once a user has signed up,
 ### Data Flow
 ![UML](readme_assets/TripUpUML.jpeg)
 
+#### DB relational diagram
+![diagram](readme_assets/TripUp_DB.png)
+
 ### Authors
  Tyler Sayvetz, Cait Rowland, Kevin Dreyer, and Susanna Lakey
 

@@ -22,7 +22,9 @@ app.use(authRouter)
 app.use(roleRouter)
 app.use(tripsRouter);
 app.use(eventRouter);
+
 app.use(tripSignupRouter);
+
 
 // Error catching
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandlers')
@@ -35,7 +37,7 @@ module.exports = {
   server: app,
   start: function (port) {
     if (!isRunning) {
-      app.listen(port, (port) => {
+      app.listen(port, () => {
         isRunning = true
         console.log(`Server is listening on ${port}`)
       })

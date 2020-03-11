@@ -1,6 +1,8 @@
 
 require('dotenv').config()
 const { PORT } = process.env
+console.log(PORT)
+
 
 const { sequelize, Trip, User } = require('./src/orm/index');
 

@@ -1,9 +1,19 @@
+/**
+ * @requires Sequalize
+ * @module "roles-route"
+ * @description Callback functions for Role routes
+ */
 const Sequelize = require('sequelize')
 const { Role } = require('../../orm')
 
-//add Role 
-
-async function addRole(req, res, next) {
+/**
+ * add Role 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * need to reject duplicate roles
+ */
+async function addRole (req, res, next) {
 
     await Role
         .findOrCreate({
@@ -19,11 +29,67 @@ async function addRole(req, res, next) {
             console.log(role.get({
                 plain: true
             }))
-            if (created === true) console.log('created', created)
-            if (created === false) console.log('Role already exists')
+            if(created === true) console.log('created', created)
+            if(created === false) console.log('Role already exists')
+            res.status(201).json(role.role)
         })
         .catch(next)
-
 }
 
-module.exports = { addRole }
+/**
+ * get Role
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+async function getRole (req, res, next) {
+    await Role.models.role.findAll()
+        .then(function(role) {
+            res.status(200).json(role)})
+        .catch(next)
+}
+
+/**
+ * update Role
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * need to work on response
+ */
+async function updateRole (req, res, next) {
+    await Role.models.role.update({
+        name: req.body.name,
+        create: req.body.create,
+        read: req.body.read,
+        update: req.body.update,
+        delete: req.body.delete,
+        },
+        {returning: true, where: {id: req.params.id} }
+    )
+    .then(function (result) {
+        console.log('update',result[1])
+        res.status(201).json(result)
+    })
+    .catch(next)
+}
+
+/**
+ * delete Role
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * response
+ */
+async function deleteRole (req, res, next) {
+    await Role.models.role.destroy({
+        where: {id: req.params.id}
+    })
+    .then(function (result) {
+        console.log('deleted',result)
+        res.status(201).json(result)
+
+    })
+    .catch(next)
+}
+
+module.exports = {addRole, getRole, updateRole, deleteRole}
