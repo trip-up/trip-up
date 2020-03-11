@@ -15,6 +15,7 @@ async function createTrip(req, res, next) {
   // }
 
   try {
+
     const { name, destination, start, end, cost, type, } = req.body;
     const newTrip = await Trip.create({
       name,
@@ -26,6 +27,7 @@ async function createTrip(req, res, next) {
       organizer_user_id: req.user.id
     })
     res.status(201).json({ trip_created: newTrip })
+
 
   } catch (err) {
     next(err);
@@ -50,6 +52,7 @@ async function getAllTrips(req, res, next) {
   const userId = req.user.id;
 
   try {
+
 
 
     //an admin is trying to get all trips with all users. 
@@ -107,10 +110,14 @@ async function getAllTrips(req, res, next) {
 
     }
 
+
   } catch (err) {
     next(err);
   }
 }
+
+
+function getOneTrip(req, res, next) {
 
 /**
  * getOne trip is also funny for the same reasons. 
@@ -154,6 +161,7 @@ async function getOneTrip(req, res, next) {
   //   name: 'tyler',
   //   role_id: 2
   // }
+
 
   try {
     //find the trip were talking about, so we can figure out if this person in on the trip.
@@ -220,4 +228,13 @@ async function getOneTrip(req, res, next) {
   }
 }
 
-module.exports = { createTrip, getAllTrips, getOneTrip };
+
+function deleteTrip(req, res, next) {
+  try {
+    res.status(204).json('Trip Deleted!')
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip };
