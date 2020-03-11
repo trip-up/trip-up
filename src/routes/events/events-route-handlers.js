@@ -10,15 +10,32 @@ const { Event } = require('../../orm/index')
   * @param {*} res 
   * @param {*} next 
   */
-function addEvent(req, res, next) {
-  try {
-    console.log('addevent',req.body)
-    res.status(201).json('Event Created')
-  } catch (err) {
-    next(err);
+  async function addEvent(req, res, next) {
+    console.log('req.body',req.body)
+    console.log('req.params',req.params)
+    await Event.create({
+          name: req.body.name,
+          start_day: req.body.start_day,
+          end_day: req.body.end_day,
+          trip_id: req.params.trip_id
+    })
+    .then(function (event, created) {
+      // console.log(event.get({
+      //     plain: true
+      // }))
+      if(created) console.log('created', created)
+      res.status(201).json(event)
+    })
+    .catch(next)
   }
-}
 
+/**
+ * Get Events from Trip
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * Not working: returns "error": "role is not defined"
+ */
 async function getEventsFromTrip(req, res, next) {
   await Event.findAll({
     where: {trip_id: req.params.trip_id}

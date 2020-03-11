@@ -9,7 +9,7 @@ const eventRouter = express.Router();
 
 const { addEvent, getEventsFromTrip } = require('./events-route-handlers')
 
-eventRouter.post('/events', addEvent)
+eventRouter.post('/events/:trip_id', addEvent)
 
 eventRouter.get('/events/:trip_id', getEventsFromTrip)
 
