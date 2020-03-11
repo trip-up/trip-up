@@ -29,4 +29,4 @@ eventRouter.put('/events/:id', updateEvent)
  */
 eventRouter.delete('/events/:id', deleteEvent)
 
-module.exports = eventRouter
+module.exports = eventRouter;

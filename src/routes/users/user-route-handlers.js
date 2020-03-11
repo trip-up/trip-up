@@ -1,49 +1,30 @@
-// const User = require('../orm/models/user.schema');
-// const Sequelize = require('sequelize')
-const { User } = require('../../orm');
-const jwt = require('jsonwebtoken')
+const { User } = require('../../orm/index')
+const bcrypt = require('bcrypt')
+const generateToken = require('../../util/generateToken')
 
-let SECRET = process.env.SECRET
+const defaultRole = process.env.DEFAULTROLE
 
 //Sign up 
-
 async function signUp(req, res, next) {
-  try {
-    const newUser = await User
-      .findOrCreate({
-        where: {
-          email: req.body.email,
-          name: req.body.name,
-          password: req.body.password,
-          city: req.body.city,
-          phone: req.body.phone,
-          // role_id: 2
-        }
-      })
-
-    const { id, name, email } = newUser[0].dataValues
-    const token = generateToken(id, name, email)
-    res.status(201).json({ token })
-  } catch (err) {
-    console.log(err.message);
-  }
+  const newUser = await User
+    .findOrCreate({
+      where: {
+        email: req.body.email,
+        name: req.body.name,
+        city: req.body.city,
+        password: await bcrypt.hash(req.body.password, 5),
+        phone: req.body.phone,
+        role_id: defaultRole
+      }
+    })
+  const { id, name, email, role_id } = newUser[0].dataValues
+  const token = generateToken(id, name, email, role_id)
+  res.status(201).json({ token })
 }
 
-const generateToken = function (id, name, email) {
-  const tokenData = {
-    id: this.id,
-    email: this.email,
-
-  }
-  return jwt.sign(tokenData, SECRET)
+//Sign In
+async function signIn(req, res, next) {
+  res.status(200).json({ token: req.token })
 }
 
-//Sign in 
-
-// function signIn(req, res, next) {
-//     User.models.user
-
-// }
-
-
-module.exports = { signUp }
+module.exports = { signUp, signIn }
