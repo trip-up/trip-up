@@ -1,5 +1,7 @@
 function createTrip(req, res, next) {
   try {
+
+    // flag user who created as the coordinator
     res.status(201).json('Trip Created')
   } catch (err) {
     next(err);
@@ -8,13 +10,11 @@ function createTrip(req, res, next) {
 
 function getAllTrips(req, res, next) {
   try {
-    res.status(200).json('Listing All Trips')
+    res.status(200).json('Listing All Trips');
   } catch (err) {
     next(err);
   }
 }
-
-
 
 function getOneTrip(req, res, next) {
   try {
@@ -24,4 +24,13 @@ function getOneTrip(req, res, next) {
   }
 }
 
-module.exports = { createTrip, getAllTrips, getOneTrip };
+
+function deleteTrip(req, res, next) {
+  try {
+    res.status(204).json('Trip Deleted!')
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip };

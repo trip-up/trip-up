@@ -2,7 +2,6 @@
 require('dotenv').config()
 const DB = require('./index');
 
-
 async function rebuildDB() {
   await DB.sequelize.query('DROP DATABASE trip_up;');
   await DB.sequelize.query('CREATE DATABASE trip_up;');

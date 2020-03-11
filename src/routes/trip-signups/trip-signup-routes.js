@@ -1,8 +1,9 @@
 const express = require('express')
 const tripSignupRouter = express.Router();
 
-const { signupForTrip } = require('./trip-signup-routes-handlers')
+const { signupForTrip, approveUser } = require('./trip-signup-routes-handlers')
 
-tripSignupRouter.post('/trip-signups', signupForTrip)
+tripSignupRouter.post('/trip-signups/:trip_id', signupForTrip)
+tripSignupRouter.put('/trip-signups/:trip_id', approveUser)
 
 module.exports = tripSignupRouter

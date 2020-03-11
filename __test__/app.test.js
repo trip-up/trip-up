@@ -83,14 +83,43 @@ describe('app', () => {
       })
 
       it('lists one trip when given a trip id at GET request', async () => {
+        const newTrip = {
+          trip_id: '1',
+          name: 'Trip to Paradise',
+          destination: 'Hawaii',
+          start_day: '2020-11-20',
+          end_day: '2020-11-22',
+          cost: 1000,
+        }
+
+        await mockRequest
+          .post('/trips')
+          .send(newTrip);
+
         const result = await mockRequest
-          .get('/trips/trip_id')
+          .get('/trips/:trip_id')
 
         expect(result.status).toBe(200);
       })
 
-      it('allows the trip organizer to delete their trips', () => {
-        //  
+      it('allows the trip organizer to delete their trips', async () => {
+        const newTrip = {
+          trip_id: '1',
+          name: 'Trip to Paradise',
+          destination: 'Hawaii',
+          start_day: '2020-11-20',
+          end_day: '2020-11-22',
+          cost: 1000,
+        }
+
+        await mockRequest
+          .post('/trips')
+          .send(newTrip);
+
+        const result = await mockRequest
+          .delete(`/trips/${newTrip.trip_id}`)
+
+        expect(result.status).toBe(204);
       })
     })
 
@@ -146,8 +175,22 @@ describe('app', () => {
 
       })
 
-      it('allows the trip organizer to delete an event', () => {
+      it('allows the trip organizer to delete an event', async () => {
 
+        const newEvent = {
+          event_id: '1',
+          name: 'Hawaii Luau',
+          start_day: '2020-11-20',
+          end_day: '2020-11-20'
+        }
+
+        await mockRequest
+          .post('/events')
+          .send(newEvent);
+        const result = await mockRequest
+          .delete(`/events/${newEvent.event_id}`);
+
+        expect(result.status).toBe(204);
       })
 
     })
@@ -169,29 +212,23 @@ describe('app', () => {
           .send(newTrip);
 
         const result = await mockRequest
-          .post('/trip-signups')
+          .post('/trip-signups/1')
           .send(trip_id)
 
         expect(result.status).toBe(201);
 
       })
 
-      it('allows the organizer of the trip to authorize a user to join their trip', () => {
+      it('allows the organizer of the trip to authorize a user to join their trip', async () => {
         const userToApprove = {
           user_id: '1',
           trip_id: '2',
           approved: false,
         }
-
-
-
         const result = await mockRequest
-          .put('/trip-signups')
-          .send(trip_id)
-
-        expect(result.status).toBe(201);
-
-
+          .put('/trip-signups/2')
+          .send(userToApprove)
+        expect(result.status).toBe(200);
 
       })
     })

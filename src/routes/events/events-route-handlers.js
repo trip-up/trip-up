@@ -16,4 +16,12 @@ function getOneEvent(req, res, next) {
 }
 
 
-module.exports = { addEvent, getOneEvent };
+function deleteEvent(req, res, next) {
+  try {
+    res.status(204).json('Event Deleted')
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { addEvent, getOneEvent, deleteEvent };
