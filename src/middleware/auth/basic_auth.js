@@ -21,15 +21,6 @@ function basicAuth(req, res, next) {
         })
 }
 
-function _validate(results) {
-    console.log('validated results', results)
-    const { id, name, role_id, email } = results;
-
-    const tokenData = { id, name, role_id, email }
-    next()
-}
-
-
 async function authenticateBasic(email, password) {
     const userFound = await User.findOne({
         where: { email: email }
@@ -37,7 +28,5 @@ async function authenticateBasic(email, password) {
     const correctPassword = await bcrypt.compare(password, userFound.password)
     return correctPassword ? userFound.dataValues : false;
 }
-
-//we want the email, the role id, and the name, and the id
 
 module.exports = basicAuth 
