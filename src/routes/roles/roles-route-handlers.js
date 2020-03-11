@@ -1,15 +1,13 @@
 /**
- * @requires Sequalize
  * @module "roles-route-handlers"
  * @description Callback functions for Role routes
  */
-const Sequelize = require('sequelize')
 const { Role } = require('../../orm/index')
 
 /**
- * add Role 
- * @param {*} req 
- * @param {*} res 
+ * @function addRole
+ * @param {*} req - request body with name, create, read, update, and delete
+ * @param {*} res - json of role added
  * @param {*} next 
  * need to reject duplicate roles
  */
@@ -37,9 +35,9 @@ async function addRole (req, res, next) {
 }
 
 /**
- * get Role
+ * @function getRole
  * @param {*} req 
- * @param {*} res 
+ * @param {*} res - json of all roles
  * @param {*} next 
  */
 async function getRole (req, res, next) {
@@ -50,11 +48,10 @@ async function getRole (req, res, next) {
 }
 
 /**
- * update Role
- * @param {*} req 
- * @param {*} res 
+ * @function updateRole
+ * @param {*} req - request params with id of role to update and request body with fields to edit
+ * @param {*} res - results of update
  * @param {*} next 
- * need to work on response .models.role.
  */
 async function updateRole (req, res, next) {
     await Role.update({
@@ -74,11 +71,10 @@ async function updateRole (req, res, next) {
 }
 
 /**
- * delete Role
- * @param {*} req 
- * @param {*} res 
+ * @function deleteRole
+ * @param {*} req - request params with id of role to delete
+ * @param {*} res - results of delete
  * @param {*} next 
- * response
  */
 async function deleteRole (req, res, next) {
     await Role.destroy({
