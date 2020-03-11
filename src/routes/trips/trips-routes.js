@@ -13,5 +13,5 @@ tripsRouter.delete('/trips/:trip_id', deleteTrip)
 
 tripsRouter.get('/trips/:trip_id', ACL(CREDENTIALS.ADMIN), getOneTrip);
 
-
 module.exports = tripsRouter;
+

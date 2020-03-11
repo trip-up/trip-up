@@ -1,3 +1,10 @@
+/**
+ * @requires Sequalize
+ * @module "trip_has_user.schema"
+ * @description 
+ * @param {boolean} approval - is user approved for trip
+ * @returns {object} TripHasUSer
+ */
 const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {

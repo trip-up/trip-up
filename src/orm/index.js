@@ -1,3 +1,7 @@
+/**
+ * @module orm/index
+ * @description ORM of trip up database, DB connection made here
+ */
 const Sequelize = require('sequelize')
 
 const createEventModel = require('./models/event.schema');
@@ -11,7 +15,6 @@ const createUserModel = require('./models/user.schema');
 /**
  * Instantiate our sequelize object
  */
-
 const sequelize = new Sequelize('trip_up', 'root', process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'mysql',

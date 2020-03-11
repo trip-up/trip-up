@@ -1,10 +1,16 @@
+/**
+ * @module "trips-route-handler"
+ * @description Callback functions for Trip routes
+ */
 const { Trip } = require('./../../orm/index')
 
-
 /**
- * POST /trips with body: name<string>, destination<string>, start<yyyy-mm-dd>, end<yyy-mm-dd>, cost<number>
- * 
- * This function creates one trip and adds it to the DB.  
+ * @function createTrip
+ * @description This function creates one trip and adds it to the DB. 
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next 
+ * @example POST /trips with body: name<string>, destination<string>, start<yyyy-mm-dd>, end<yyy-mm-dd>, cost<number>
  */
 async function createTrip(req, res, next) {
   //this will mock the request object.. 
@@ -35,12 +41,15 @@ async function createTrip(req, res, next) {
 }
 
 /**
- * Get all trips is funny beacuse there are several scenarios we could be talking about here:
- * 
- * 1. A user is trying to get all of the trips they are going on.
- * 2. A user is trying to get all of the trips they are a coordinator for.
- * 4. An admin is trying to see all trips, with all details. 
- * 4B. An admin might want to see a particular level of detail
+ * @function getAllTrips
+ * @description Get all trips is funny beacuse there are several scenarios we could be talking about here:
+ * <br> 1. A user is trying to get all of the trips they are going on.
+ * <br> 2. A user is trying to get all of the trips they are a coordinator for.
+ * <br> 4. An admin is trying to see all trips, with all details. 
+ * <br> 4B. An admin might want to see a particular level of detail
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next 
  */
 async function getAllTrips(req, res, next) {
   req.user = {
@@ -255,6 +264,7 @@ async function getOneTrip(req, res, next) {
     next(err);
   }
 }
+}
 
 
 function deleteTrip(req, res, next) {
@@ -265,4 +275,6 @@ function deleteTrip(req, res, next) {
   }
 }
 
+
 module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip }
+
