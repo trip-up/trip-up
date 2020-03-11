@@ -46,4 +46,39 @@ async function getEventsFromTrip(req, res, next) {
   .catch(next)
 }
 
-module.exports = { addEvent,getEventsFromTrip };
+/**
+ * Update Event
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+async function updateEvent(req, res, next) {
+  await Event.update({
+    name: req.body.name,
+    start_day: req.body.start_day,
+    end_day: req.body.end_day,
+    },
+    {where: {id: req.params.id}}
+  )
+  .then(function (result) {
+    res.status(201).json(result)
+  })
+}
+
+/**
+ * Delete Event
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+async function deleteEvent (req, res, next) {
+  await Event.destroy({
+    where: {id: req.params.id}
+  })
+  .then(function (result) {
+    res.status(201).json(result)
+  })
+  .catch(next)
+}
+
+module.exports = { addEvent,getEventsFromTrip,updateEvent,deleteEvent };
