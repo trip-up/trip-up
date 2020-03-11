@@ -27,4 +27,16 @@ async function signIn(req, res, next) {
   res.status(200).json({ token: req.token })
 }
 
-module.exports = { signUp, signIn }
+//Get All Users 
+async function getAllUsers(req, res, next) {
+  if(req.userToken.role_id !== 1) {
+    res.status(403).json('You do not have authorization')
+  }
+  if(req.userToken.role_id === 1) {
+  const allUsers = await User.findAll({})
+  res.status(200).json({allUsers})
+  .catch(next)
+  }
+}
+
+module.exports = { signUp, signIn, getAllUsers }
