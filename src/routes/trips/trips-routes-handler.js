@@ -43,81 +43,111 @@ async function createTrip(req, res, next) {
  * 4B. An admin might want to see a particular level of detail
  */
 async function getAllTrips(req, res, next) {
-  // req.user = {
-  //   name: 'tyler',
-  //   id: 1,
-  //   role_id: 1
-  // }
+  req.user = {
+    name: 'tyler',
+    id: 2,
+    role_id: 2
+  }
 
-  const userId = req.user.id;
+  if (!req.user) {
+    const allTripsForAnonymous = await Trip.findAll({
+      include:
+      {
+        association: 'members',
+        attributes: ['id']
+      },
+      attributes: ['name', 'start_day', 'end_day']
+    })
+    console.log(allTripsForAnonymous);
+    allTripsForAnonymous.forEach(trip => {
+      trip.dataValues.members = trip.members.length
+      trip.memebers = trip.members.length
+    })
+    res.status(200).json({ results: allTripsForAnonymous })
+  } else {
 
-  try {
+    const userId = req.user.id;
+
+    try {
 
 
 
-    //an admin is trying to get all trips with all users. 
-    if (req.user.role_id === 1) {
-      const allTrips = await Trip.findAll({
-        include: [
-          {
-            association: 'members',
-            attributes: { exclude: ['password'] },
-            through: { attributes: [] }
-          },
-          {
-            association: 'organizer',
-            attributes: { exclude: ['password'] }
+      //an admin is trying to get all trips with all users. 
+      if (req.user.role_id === 1) {
+        const allTrips = await Trip.findAll({
+          include: [
+            {
+              association: 'members',
+              attributes: { exclude: ['password'] },
+              through: { attributes: [] }
+            },
+            {
+              association: 'organizer',
+              attributes: { exclude: ['password'] }
+            }
+          ]
+        })
+
+        //if the admin wants all trips.
+        if (Object.keys(req.query).length === 0) {
+          res.status(200).json({ results: allTrips });
+
+          //if the admin only wants trips they are coordinating
+        } else if (req.query.coordinating) {
+          const tripsCoordinating = allTrips.filter(trip => {
+            trip.organizer === userId;
+          })
+          res.status(200).json({ results: tripsCoordinating });
+
+          //if the admin only wants the trips they are attending. 
+        } else if (req.query.attending) {
+          const tripsAttending = allTrips.filter(trip => {
+            !!trip.members.find(member => memeber.id === userId);
+          })
+        }
+
+        //they are a user.
+      } else if (req.user.role_id === 2) {
+        const allTripsForUsers = await Trip.findAll({
+          include: [
+            {
+              association: 'members',
+              attributes: [ 'id'] ,
+              through: { attributes: [] }
+            },
+            { association: 'organizer',
+              attributes: ['name', 'phone', 'id']    
           }
-        ]
-      })
-
-      //if the admin wants all trips.
-      if (Object.keys(req.query).length === 0) {
-        res.status(200).json({ results: allTrips });
-
-        //if the admin only wants trips they are coordinating
-      } else if (req.query.coordinating) {
-        const tripsCoordinating = allTrips.filter(trip => {
-          trip.organizer_user_id === userId;
+          ]
         })
-        res.status(200).json({ results: tripsCoordinating });
 
-        //if the admin only wants the trips they are attending. 
-      } else if (req.query.attending) {
-        const tripsAttending = allTrips.filter(trip => {
-          !!trip.members.find(member => memeber.id === userId);
-        })
-      }
+        //if the user just wants all trips
+        if (Object.keys(req.query).length === 0) {
+          //change the members value.
+          console.log(allTripsForUsers)
+          allTripsForUsers.forEach(trip => {
+            trip.dataValues.members = trip.members.length;
+            trip.memebers = trip.members.length;
+          })
 
-      //they are a user.
-    } else if (req.user.role_id === 2) {
-      const allTripsForUsers = await Trip.findAll({
-        include: [
-          {
-            association: 'members',
-            attributes: { exclude: ['password', 'id', 'createdAt', 'updatedAt', 'role_id'] },
-            through: { attributes: [] }
-          },
-          { association: 'organizer' }
-        ]
-      })
+          res.status(200).json({ results: allTripsForUsers, user: req.user })
 
-      if (Object.keys(req.query).length === 0) {
-        res.status(200).json({ results: allTripsForUsers })
-      } else if (req.query.attending) {
+          //the user wants the trips they are attending
+        } else if (req.query.attending) {
+          const tripsAttending = allTripsForUsers.filter(trip => trip.members.find(member => memeber.id === userId))
+          res.status(200).json({results: tripsAttending})
+          //the user wants the trips they are coordinating
+        } else if (req.query.coordinating) {
+          const tripsCoordinating = allTripsForUsers.filter(trip => trip.organizer.id === userId)
+        }
 
       }
 
+    } catch (err) {
+      next(err);
     }
-
-
-  } catch (err) {
-    next(err);
   }
 }
-
-
-function getOneTrip(req, res, next) {
 
 /**
  * getOne trip is also funny for the same reasons. 
@@ -154,10 +184,9 @@ function getOneTrip(req, res, next) {
               */
 
 async function getOneTrip(req, res, next) {
-  console.log('Got here!');
   //another mock user on the req obj here.
   // req.user = {
-  //   id: 6,
+  //   id: 68,
   //   name: 'tyler',
   //   role_id: 2
   // }
@@ -179,9 +208,8 @@ async function getOneTrip(req, res, next) {
     };
 
     const checkTrip = await Trip.findByPk(id, queryOptions)
-
     const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
-    console.log(onTrip);
+    console.log('user is on trip: ', onTrip);
 
     //if they are an admin or the coordinator of the trip
     if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {
@@ -237,4 +265,4 @@ function deleteTrip(req, res, next) {
   }
 }
 
-module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip };
+module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip }

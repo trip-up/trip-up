@@ -4,7 +4,7 @@ module.exports = function (sequelize) {
   class TripHasUser extends Sequelize.Model { }
 
   TripHasUser.init({
-    approval: { type: Sequelize.BOOLEAN, defaultValue: false },
+    // approval: { type: Sequelize.BOOLEAN, defaultValue: false },
   }, {
     sequelize,
     freezeTableName: true,
