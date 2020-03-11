@@ -5,9 +5,9 @@
 const { Role } = require('../../orm/index')
 
 /**
- * add Role 
+ * @function addRole
  * @param {*} req - request body with name, create, read, update, and delete
- * @param {*} res 
+ * @param {*} res - json of role added
  * @param {*} next 
  * need to reject duplicate roles
  */
@@ -35,7 +35,7 @@ async function addRole (req, res, next) {
 }
 
 /**
- * get Role
+ * @function getRole
  * @param {*} req 
  * @param {*} res - json of all roles
  * @param {*} next 
@@ -48,7 +48,7 @@ async function getRole (req, res, next) {
 }
 
 /**
- * update Role
+ * @function updateRole
  * @param {*} req - request params with id of role to update and request body with fields to edit
  * @param {*} res - results of update
  * @param {*} next 
@@ -71,7 +71,7 @@ async function updateRole (req, res, next) {
 }
 
 /**
- * delete Role
+ * @function deleteRole
  * @param {*} req - request params with id of role to delete
  * @param {*} res - results of delete
  * @param {*} next 

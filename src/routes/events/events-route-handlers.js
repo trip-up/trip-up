@@ -1,5 +1,4 @@
 /**
- * @requires Sequalize
  * @module "events-route-handlers"
  * @description Callback functions for Event routes
  */
