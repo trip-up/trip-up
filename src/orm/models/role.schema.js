@@ -1,12 +1,12 @@
 /**
- * @file "orm/models/role.schema.js"
  * @requires Sequalize
  * @module "role.schema"
- * @param {string} name for role
+ * @param {string} name name of role
  * @param {boolean} create - can role create
  * @param {boolean} read - can role read
  * @param {boolean} update - can role update
  * @param {boolean} delete - can role delete
+ * @returns {object} Role
  */
 
 const Sequelize = require('sequelize');
