@@ -1,35 +1,43 @@
 const base64 = require('base-64')
+const { User } = require('../../orm/index')
+const bcrypt = require('bcrypt')
+const generateToken = require('../../util/generateToken')
 
-function basicAuth(req, res, next ) {
-    if(!req.headers.authorization) {
+function basicAuth(req, res, next) {
+    if (!req.headers.authorization) {
         next(new Error('No Authorization Header Found'))
     }
     const basic = req.headers.authorization.split(' ').pop()
     const decoded = base64.decode(basic) // gives us "user:pass"
     const [email, password] = decoded.split(':') // split on ":"
-    return authenticateBasic(email, password)
-        .then(results => {
-            console.log(results)
-            _validate(results)
+    authenticateBasic(email, password)
+        .then(userInfo => {
+            if (!userInfo) next('bad credentials sucka')
+            // _validate(userInfo)
+            const { name, email, role_id, id } = userInfo
+            req.user = { id, name, role_id, email }
+            req.token = generateToken(id, name, email, role_id);
+            next()
         })
-
-    function _validate (results) {
-    if (results) {
-        console.log('validated results', results)
-        req.id = results.id
-        req.name = results.name
-        req.role_id = results.role_id
-        req.email = results.email
-        tokenData = {
-            id: req.id, 
-            name: req.name, 
-            role_id: req.role_id,
-            email: req.email
-        }
-        next()
-    } else {
-        next(new Error('you screwed it up'))
-    }
-    }
 }
+
+function _validate(results) {
+    console.log('validated results', results)
+    const { id, name, role_id, email } = results;
+
+    const tokenData = { id, name, role_id, email }
+    next()
+}
+
+
+async function authenticateBasic(email, password) {
+    const userFound = await User.findOne({
+        where: { email: email }
+    })
+    const correctPassword = await bcrypt.compare(password, userFound.password)
+    return correctPassword ? userFound.dataValues : false;
+}
+
+//we want the email, the role id, and the name, and the id
+
 module.exports = basicAuth 
