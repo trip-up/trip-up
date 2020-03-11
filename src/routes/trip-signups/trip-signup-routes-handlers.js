@@ -1,7 +1,16 @@
+/**
+ * @module "trip-signup-routes-handlers"
+ * @description Callback functions for trip signup
+ */
 const { TripHasUser } = require('../../orm/index');
 
-
-// http POST :3000/trip-signup trip_id=<trip_id_here>
+/**
+ * @function signupForTrip
+ * @param {*} req - request body with trip_id
+ * @param {*} res
+ * @param {*} next 
+ * @example http POST :3000/trip-signup trip_id=<trip_id_here>
+ */
 function signupForTrip(req, res, next) {
   try {
     //input user_id, trip_id?
@@ -14,6 +23,12 @@ function signupForTrip(req, res, next) {
   }
 }
 
+/**
+ * @function approveUser
+ * @param {*} req 
+ * @param {*} res
+ * @param {*} next 
+ */
 function approveUser(req, res, next) {
   try {
     // input trip_id, user_id, approval=pending
