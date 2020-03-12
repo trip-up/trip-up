@@ -1,24 +1,25 @@
 /**
- * @requires Sequalize
  * @module "events-route-handlers"
  * @description Callback functions for Event routes
  */
 const { Event, Trip } = require('../../orm/index')
 
 /**
-* Add Event
-* @param {*} req 
-* @param {*} res 
+* @function addEvent
+* @param {*} req - request params with id of trip to add event to and request body with fields
+* @param {*} res - json of event added
 * @param {*} next 
 */
 
 // http post :3001/events/1 organizer_user_id=1 name='Go to beach with hank' start_day='2020-1-10' end_day='2020-1-15'
 async function addEvent(req, res, next) {
+
   const isCoordinator = await Trip.findAll({
     where: {
       organizer_user_id: req.body.organizer_user_id,
       id: req.params.trip_id,
     }
+
   })
 
   if (isCoordinator.length > 0) {
@@ -43,9 +44,10 @@ async function addEvent(req, res, next) {
 }
 
 /**
- * Get Events from Trip
- * @param {*} req 
- * @param {*} res 
+ * @function getEventsFromTrip
+ * @description Get Events from Trip
+ * @param {*} req - request params with id
+ * @param {*} res - json of all events from trip
  * @param {*} next 
  */
 async function getEventsFromTrip(req, res, next) {
@@ -62,9 +64,9 @@ async function getEventsFromTrip(req, res, next) {
 }
 
 /**
- * Update Event
- * @param {*} req 
- * @param {*} res 
+ * @function updateEvent
+ * @param {*} req - request params with id of event to update and request body with fields to edit
+ * @param {*} res - results of update
  * @param {*} next 
  */
 
@@ -97,9 +99,9 @@ async function updateEvent(req, res, next) {
 }
 
 /**
- * Delete Event
- * @param {*} req 
- * @param {*} res 
+ * @function deleteEvent
+ * @param {*} req - request params with id of event to delete
+ * @param {*} res - results of delete
  * @param {*} next 
  */
 

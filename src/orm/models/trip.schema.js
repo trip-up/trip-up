@@ -1,15 +1,15 @@
 /**
- * @file orm/models/trip.schema.js
  * @requires Sequalize
  * @module "trip.schema"
  * @description Export a function that can be called with a sequelize connection obj to instantiate the class Trip, which is a Sequelize Model.
  * <br>Add associate() prototype function, which can be called to add table associations. 
  * @param {string} name - name for trip
  * @param {string} destination - destination for trio
- * @param {string} start_day - start day for trip
- * @param {string} end_day - end day for trip
- * @param {string} cost - cost for trip
+ * @param {*} start_day - start datetime for trip
+ * @param {*} end_day - end datetime for trip
+ * @param {number} cost - cost for trip
  * @param {string} type - type for trip
+ * @returns {Object} Trip
  */
 const Sequelize = require('sequelize')
 

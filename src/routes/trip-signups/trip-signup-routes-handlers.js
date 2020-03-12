@@ -1,7 +1,21 @@
 const { TripSignup, Trip } = require('../../orm/index');
 
 
-// http POST :3000/trip-signups trip_id=<trip_id> user_id=<user_id>
+
+
+/**
+ * @module "trip-signup-routes-handlers"
+ * @description Callback functions for trip signup
+ */
+
+/**
+ * @function signupForTrip
+ * @param {*} req - request body with trip_id
+ * @param {*} res
+ * @param {*} next 
+ * @example http POST :3000/trip-signups trip_id=<trip_id> user_id=<user_id>
+ */
+
 async function signupForTrip(req, res, next) {
   try {
     const approvalPending = await TripSignup.create({
@@ -26,30 +40,31 @@ async function viewPendingSignups(req, res, next) {
       id: req.body.trip_id,
     }
   })
+  if (isCoordinator.length > 0) {
+    const findPendingForTrip = await TripSignup.findAll({
+      where: {
+        trip_id: req.body.trip_id,
+        approval: 0
+      },
+    })
 
-  try {
-    if (isCoordinator.length > 0) {
-      const findPendingForTrip = await TripSignup.findAll({
-        where: {
-          trip_id: req.body.trip_id,
-          approval: 0
-        },
-      })
-
-      res.status(200).json(findPendingForTrip);
-    } else {
-      res.status(401).json('Access Denied')
-    }
-  } catch (err) {
-    next(err);
+    res.status(200).json(findPendingForTrip);
+  } else {
+    res.status(401).json('Access Denied')
   }
 }
-
-
 
 // http PUT :3000/trip-signups organizer_user_id=<user_id_of_organizer> trip_id=<trip_id> user_id=<id_of_user_to_approve> approval=<approval-value-to-set>
 // approval=1 sets to true
 // approval=0 denies signup and deletes user from TripSignup
+
+
+/**
+ * @function approveUser
+ * @param {*} req 
+ * @param {*} res
+ * @param {*} next 
+ */
 
 async function approveUser(req, res, next) {
   try {
@@ -100,7 +115,5 @@ async function approveUser(req, res, next) {
   }
 }
 
+
 module.exports = { signupForTrip, approveUser, viewPendingSignups };
-
-
-
