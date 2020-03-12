@@ -176,7 +176,7 @@ async function getOneTrip(req, res, next) {
 
     const checkTrip = await Trip.findByPk(id, queryOptions)
     const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
-    console.log('user is on trip: ', onTrip);
+    // console.log('user is on trip: ', onTrip);
 
     //if they are an admin or the coordinator of the trip
     if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {

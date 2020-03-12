@@ -16,13 +16,13 @@ tripSignupRouter.get('/trip-signups', viewPendingSignups);
  * @param {callback} signupForTrip
  * @example http POST :3000/trip-signup trip_id=<trip_id_here>
  */
-tripSignupRouter.post('/trip-signups', signupForTrip)
+tripSignupRouter.post('/trip-signups/:id', signupForTrip)
 
 /**
  * @name approve/trip-signups/for_trip
  * @function
  * @param {callback} approveUser
  */
-tripSignupRouter.put('/trip-signups', approveUser)
+tripSignupRouter.put('/trip-signups/:id', approveUser)
 
 module.exports = tripSignupRouter;

@@ -110,7 +110,7 @@ async function updateEvent(req, res, next) {
 async function deleteEvent(req, res, next) {
   // console.log('req param id', req.params.id)
   const eventId = req.params.event_id
-  console.log('req.body',req.body)
+  // console.log('req.body',req.body)
 
   const isCoordinator = await Trip.findAll({
     where: {
@@ -124,7 +124,7 @@ async function deleteEvent(req, res, next) {
         const result = await Event.destroy({
           where: { id: eventId }
         })
-            console.log('Event Deleted')
+            // console.log('Event Deleted')
             res.status(204).json(result)
       } else {
         res.status(401).json('Access Denied')

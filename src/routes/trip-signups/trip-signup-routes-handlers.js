@@ -17,9 +17,10 @@ const { TripSignup, Trip } = require('../../orm/index');
  */
 
 async function signupForTrip(req, res, next) {
+  const tripId = parseInt(req.params.id)
   try {
     const approvalPending = await TripSignup.create({
-      trip_id: req.body.trip_id,
+      trip_id: tripId,
       user_id: req.body.user_id,
       approval: false,
     })
@@ -67,12 +68,13 @@ async function viewPendingSignups(req, res, next) {
  */
 
 async function approveUser(req, res, next) {
+  const tripId = parseInt(req.params.id)
   try {
     // checks if coordinator is the organizor attached to the trip_id given
     const isCoordinator = await Trip.findAll({
       where: {
         organizer_user_id: req.body.organizer_user_id,
-        id: req.body.trip_id,
+        id: tripId,
       }
     })
 
@@ -82,7 +84,7 @@ async function approveUser(req, res, next) {
 
 
       // if approval value of true was given, it will update the users approval to true in TripSignup
-      if (req.body.approval === '1') {
+      if (req.body.approval === true) {
         console.log('in set to true')
         await TripSignup.update({
           approval: 1

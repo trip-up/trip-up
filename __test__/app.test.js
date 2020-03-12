@@ -183,7 +183,7 @@ describe('app', () => {
     })
 
     describe('/trip_signups', () => {
-      xit('allows a user to signup for a specific trip', async () => {
+      it('allows a user to signup for a specific trip', async () => {
         const newTrip = {
           trip_id: '1',
           name: 'Trip to Paradise',
@@ -200,22 +200,25 @@ describe('app', () => {
 
         const result = await mockRequest
           .post('/trip-signups/1')
+          .set('Authorization', `Bearer ${token}`)
           .send(trip_id)
 
         expect(result.status).toBe(201);
 
       })
 
-      xit('allows the organizer of the trip to authorize a user to join their trip', async () => {
+      it('allows the organizer of the trip to authorize a user to join their trip', async () => {
         const userToApprove = {
           user_id: '1',
           trip_id: '2',
-          approved: false,
+          organizer_user_id: 2,
+          approval: true
         }
         const result = await mockRequest
           .put('/trip-signups/2')
+          .set('Authorization', `Bearer ${token}`)
           .send(userToApprove)
-        expect(result.status).toBe(200);
+        expect(result.status).toBe(201);
 
       })
     })
