@@ -29,14 +29,29 @@ async function signIn(req, res, next) {
 
 //Get All Users 
 async function getAllUsers(req, res, next) {
-  if(req.user.role_id !== 1) {
+  if (req.user.role_id !== 1) {
     res.status(403).json('You do not have authorization')
   }
-  if(req.user.role_id === 1) {
-  const allUsers = await User.findAll({})
-  res.status(200).json({allUsers})
-  .catch(next)
+  if (req.user.role_id === 1) {
+    const allUsers = await User.findAll({})
+    res.status(200).json({ allUsers })
   }
+  next()
+}
+
+//Get One User
+async function getOneUser(req, res, next) {
+  const id = parseInt(req.params.id)
+  if (req.user.role_id !== 1) {
+    res.status(403).json('You do not have authorization')
+  }
+  if (req.user.role_id === 1) {
+    const userInfo = await User.findOne({
+      where: { id }
+    })
+    res.status(200).json({ userInfo })
+  }
+  next()
 }
 
 //Update User
@@ -44,25 +59,22 @@ async function updateUser(req, res, next) {
   const id = parseInt(req.params.id)
   let record = req.body
 
-  console.log('the params', id, req.user.role_id, req.user.id)
-
-  if(req.user.role_id ===1 || req.user.id === id) {
-    console.log('inside if')
+  if (req.user.role_id === 1 || req.user.id === id) {
     await User.update({
       email: record.email,
       name: record.name,
       city: record.city,
       // password: await bcrypt.hash(record.password, 5),
       phone: record.phone,
-    }, 
-    { where : { id }}
+    },
+      { where: { id } }
     )
-    .then(function (result) {
-      res.status(201).json(`${result} record updated`)
-    })
+      .then(function (result) {
+        res.status(200).json(`${result} record updated`)
+      })
       .catch(next)
   } else {
-    res.status(403).json('You do not have authorization') 
+    res.status(403).json('You do not have authorization')
   }
 }
 
@@ -70,17 +82,17 @@ async function updateUser(req, res, next) {
 async function deleteUser(req, res, next) {
   const id = parseInt(req.params.id)
 
-  if(req.user.role_id ===1 || req.user.id === id) {
+  if (req.user.role_id === 1 || req.user.id === id) {
     await User.destroy({
-      where: {id}
+      where: { id }
     })
-    .then(function (result) {
-      res.status(200).json(`${result} user deleted`)
-    })
-    .catch(next)
+      .then(function (result) {
+        res.status(200).json(`${result} user deleted`)
+      })
+      .catch(next)
   } else {
-    res.status(403).json('You do not have authorization') 
+    res.status(403).json('You do not have authorization')
   }
 }
 
-module.exports = { signUp, signIn, getAllUsers, updateUser, deleteUser }
+module.exports = { signUp, signIn, getAllUsers, updateUser, deleteUser, getOneUser }
