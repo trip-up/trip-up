@@ -13,9 +13,10 @@ function basicAuth(req, res, next) {
     const basic = req.headers.authorization.split(' ').pop()
     const decoded = base64.decode(basic) // gives us "user:pass"
     const [email, password] = decoded.split(':') // split on ":"
+    console.log(email, password)
     authenticateBasic(email, password)
         .then(userInfo => {
-            if (!userInfo) next('bad credentials,... sucka')
+            if (!userInfo) next('bad credentials sucka')
             const { name, email, role_id, id } = userInfo
             req.user = { id, name, role_id, email }
             
