@@ -14,6 +14,7 @@ module.exports = function (sequelize) {
   class Event extends Sequelize.Model { }
 
   Event.init({
+    trip_id: { type: Sequelize.INTEGER },
     name: { type: Sequelize.STRING },
     start_day: { type: Sequelize.DATE },
     end_day: { type: Sequelize.DATE },

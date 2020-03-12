@@ -44,6 +44,7 @@ async function createEvents() {
 
   const [portugal, olympics, space] = await DB.Trip.findAll();
 
+
   const events = [
     // Portugal
     { start_day: '1991-1-10', end_day: '1991-1-15', name: 'Packing 101', trip_id: portugal.id },
@@ -68,7 +69,27 @@ async function createEvents() {
     { start_day: '1969-4-08', end_day: '1969-4-12', name: 'Tom Hanks still everyones hero', trip_id: space.id },
   ]
 
-  DB.Event.bulkCreate(events);
+  await DB.Event.bulkCreate(events);
+}
+
+async function addEventsToTrips() {
+  const trips = await DB.Trip.findAll();
+  const events = await DB.Event.findAll();
+
+
+  const tripsWithEvents = trips.map(trip => {
+    return events.filter(event => event.trip_id === trip.id)
+  })
+
+  const eventsToInsert = []
+
+  tripsWithEvents.forEach((trip, idx) => {
+    tripsWithEvents[idx].forEach(event => {
+      eventsToInsert.push({ trip_id: event.trip_id, event_id: event.id })
+    })
+  })
+  console.log(eventsToInsert)
+  await DB.TripHasEvent.bulkCreate(eventsToInsert)
 }
 
 async function addUsersToTrips() {
@@ -126,10 +147,10 @@ async function createMessages() {
     await createRoles();
     await createUsers();
     await createTrips();
-    await createEvents();
-    await createMessages();
     await addUsersToTrips();
-
+    await createEvents();
+    await addEventsToTrips();
+    await createMessages();
   } catch (err) {
     console.log(err);
   }
