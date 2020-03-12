@@ -3,6 +3,7 @@
  * @description Callback functions for Trip routes
  */
 const { Trip } = require('./../../orm/index')
+const { ERRORS } = require('./../../../config/serverSettings')
 
 /**
  * @function createTrip
@@ -122,7 +123,7 @@ async function getAllTrips(req, res, next) {
         //if the user just wants all trips
         if (!req.query.coordinating && !req.query.attending) {
           //change the members value.
-          console.log(allTripsForUsers)
+          // console.log(allTripsForUsers)
           allTripsForUsers.forEach(trip => {
             trip.dataValues.members = trip.members.length;
             trip.memebers = trip.members.length;
@@ -175,7 +176,7 @@ async function getOneTrip(req, res, next) {
 
     const checkTrip = await Trip.findByPk(id, queryOptions)
     const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
-    console.log('user is on trip: ', onTrip);
+    // console.log('user is on trip: ', onTrip);
 
     //if they are an admin or the coordinator of the trip
     if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {
@@ -246,7 +247,7 @@ async function getOneTrip(req, res, next) {
     if (req.user.role_id === 2 && !onTrip) {
       foundTrip.dataValues.members = foundTrip.members.length;
     }
-    console.log(foundTrip.members);
+    // console.log(foundTrip.members);
 
     res.status(200).json({ result: foundTrip })
 
@@ -259,12 +260,12 @@ async function deleteTrip(req, res, next) {
 
   try {
     await Trip.destroy({
-      where: { trip_id: req.params.trip_id }
+      where: { id: req.params.trip_id }
     })
     res.status(204).json({ result: 'deleted the resource!' })
   } catch (err) {
     console.error(err.message)
-    throw new Error(ERRORS.delete)
+    next(ERRORS.delete)
   }
 }
 

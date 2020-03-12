@@ -16,6 +16,7 @@ describe('app', () => {
     await sequelize.authenticate()
     await sequelize.sync();
     let token;
+    let tripId;
   });
 
   afterAll(async () => {
@@ -60,7 +61,7 @@ describe('app', () => {
           .post('/signup')
           .send(newUser);
         token = result.body.token;
-        console.log('token', token);
+        // console.log('token', token);
 
         expect(result.status).toBe(201);
       })
@@ -80,7 +81,10 @@ describe('app', () => {
           .post('/trips')
           .set('Authorization', `Bearer ${token}`)
           .send(newTrip);
-
+          tripId = result.body.trip_created.id
+          // console.log('result.body during post',result.body)
+          // console.log('tripId',tripId)
+          
         expect(result.status).toBe(201);
       })
 
@@ -103,43 +107,35 @@ describe('app', () => {
       })
 
       it('allows the trip organizer to delete their trips', async () => {
-        // const newTrip = {
-        //   trip_id: '1',
-        //   name: 'Trip to Paradise',
-        //   destination: 'Hawaii',
-        //   start_day: '2020-11-20',
-        //   end_day: '2020-11-22',
-        //   cost: 1000,
-        // }
-
-        // await mockRequest
-        //   .post('/trips')
-        //   .send(newTrip);
-
         const result = await mockRequest
-          .delete(`/trips/1`)
+          .delete(`/trips/${tripId}`)
           .set('Authorization', `Bearer ${token}`)
-
+        // console.log('result.body',result.body)
         expect(result.status).toBe(204);
       })
     })
 
     describe('/events', () => {
-      xit('creates a new event with a post request', async () => {
+      let eventId;
+      const tripId = 3;
+      it('creates a new event with a post request', async () => {
         const newEvent = {
           name: 'Hawaii Luau',
           start_day: '2020-11-20',
-          end_day: '2020-11-20'
+          end_day: '2020-11-20',
+          organizer_user_id: 8
         }
         const result = await mockRequest
-          .post('/events')
-          .send(newEvent);
+          .post(`/events/3`)
+          .send(newEvent)
+          // .set('Authorization', `Bearer ${token}`)
+          eventId = result.body.id
 
         expect(result.status).toBe(201);
 
       })
 
-      xit('gets events based on a trip_id', async () => {
+      it('gets events based on a trip_id', async () => {
 
         const newEvent = {
           id: 1,
@@ -158,7 +154,7 @@ describe('app', () => {
 
       })
 
-      xit('gets a single event based on the event id', async () => {
+      it('gets a single event based on the event id', async () => {
         const newEvent = {
           id: 1,
           name: 'Hawaii Luau',
@@ -176,28 +172,18 @@ describe('app', () => {
 
       })
 
-      xit('allows the trip organizer to delete an event', async () => {
+      it('allows the trip organizer to delete an event', async () => {
 
-        const newEvent = {
-          event_id: '1',
-          name: 'Hawaii Luau',
-          start_day: '2020-11-20',
-          end_day: '2020-11-20'
-        }
-
-        await mockRequest
-          .post('/events')
-          .send(newEvent);
         const result = await mockRequest
-          .delete(`/events/${newEvent.event_id}`);
-
+          .delete(`/events/1`)
+          .send({ organizer_user_id: 1, trip_id: tripId })
         expect(result.status).toBe(204);
       })
 
     })
 
     describe('/trip_signups', () => {
-      xit('allows a user to signup for a specific trip', async () => {
+      it('allows a user to signup for a specific trip', async () => {
         const newTrip = {
           trip_id: '1',
           name: 'Trip to Paradise',
@@ -214,23 +200,25 @@ describe('app', () => {
 
         const result = await mockRequest
           .post('/trip-signups/1')
+          .set('Authorization', `Bearer ${token}`)
           .send(trip_id)
 
         expect(result.status).toBe(201);
 
       })
 
-      xit('allows the organizer of the trip to authorize a user to join their trip', async () => {
+      it('allows the organizer of the trip to authorize a user to join their trip', async () => {
         const userToApprove = {
           user_id: '1',
           trip_id: '2',
-          approved: false,
+          organizer_user_id: 2,
+          approval: true
         }
         const result = await mockRequest
           .put('/trip-signups/2')
+          .set('Authorization', `Bearer ${token}`)
           .send(userToApprove)
-        expect(result.status).toBe(200);
-
+        expect(result.status).toBe(201);
       })
     })
   })

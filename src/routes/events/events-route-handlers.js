@@ -14,21 +14,21 @@ const { Event, Trip } = require('../../orm/index')
 // http post :3001/events/1 organizer_user_id=1 name='Go to beach with hank' start_day='2020-1-10' end_day='2020-1-15'
 async function addEvent(req, res, next) {
 
+  const tripId = parseInt(req.params.trip_id)
   const isCoordinator = await Trip.findAll({
     where: {
       organizer_user_id: req.body.organizer_user_id,
-      id: req.params.trip_id,
+      id: tripId,
     }
 
   })
 
   if (isCoordinator.length > 0) {
-
     await Event.create({
       name: req.body.name,
       start_day: req.body.start_day,
       end_day: req.body.end_day,
-      trip_id: req.params.trip_id
+      trip_id: tripId
     })
       .then(function (event, created) {
         // console.log(event.get({
@@ -51,13 +51,13 @@ async function addEvent(req, res, next) {
  * @param {*} next 
  */
 async function getEventsFromTrip(req, res, next) {
-  console.log('req.body', req.body)
-  console.log('req.params', req.params)
+  // console.log('req.body', req.body)
+  // console.log('req.params', req.params)
   await Event.findAll({
     where: { trip_id: req.params.trip_id }
   })
     .then(function (result) {
-      console.log('getEventfromTrip', result)
+      // console.log('getEventfromTrip', result)
       res.status(200).json(result)
     })
     .catch(next)
@@ -106,29 +106,34 @@ async function updateEvent(req, res, next) {
  */
 
 
-// http delete :3001/events/17 organizer_user_id=<organizer_user_id> trip_id
+// http delete :3001/events/17 organizer_user_id=<organizer_user_id> trip_id=trip_id
 async function deleteEvent(req, res, next) {
-  console.log('req param id', req.params.id)
-
-  const isCoordinator = await Trip.findAll({
-    where: {
-      organizer_user_id: req.body.organizer_user_id,
-      id: req.body.trip_id
-    }
-  })
-
-  if (isCoordinator.length > 0) {
-    await Event.destroy({
-      where: { id: req.params.id }
+  // console.log('req param id', req.params.id)
+  const eventId = req.params.event_id
+  try {
+    const trip = await Trip.findOne({
+      include: {
+        association: 'events',
+        where: { id: req.params.event_id }
+      }
     })
-      .then(function (result) {
-        console.log('Event Deleted')
-        res.status(204).json(result)
+    const isCoordinator = trip.organizer_user_id == req.body.organizer_user_id
+    console.log(`${trip.organizer_user_id}, ${req.body.organizer_user_id}`);
+    if (isCoordinator) {
+
+      const result = await Event.destroy({
+        where: { id: eventId }
       })
-      .catch(next)
-  } else {
-    res.status(401).json('Access Denied')
+      console.log('Event Deleted')
+      res.status(204).json(result)
+    } else {
+      res.status(401).json('Access Denied')
+    }
+
+  } catch (err) {
+    next(err)
   }
+
 }
 
 module.exports = { addEvent, getEventsFromTrip, updateEvent, deleteEvent };
