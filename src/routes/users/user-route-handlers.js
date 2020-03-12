@@ -14,7 +14,7 @@ async function signUp(req, res, next) {
         city: req.body.city,
         password: await bcrypt.hash(req.body.password, 5),
         phone: req.body.phone,
-        role_id: defaultRole
+        role_id: parseInt(defaultRole)
       }
     })
   const { id, name, email, role_id } = newUser[0].dataValues
