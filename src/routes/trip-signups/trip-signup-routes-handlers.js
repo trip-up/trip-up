@@ -98,9 +98,9 @@ async function approveUser(req, res, next) {
         res.status(201).json('Signup Approved!');
       }
       // if the approval value is not true, it will delete the user from TripSignup
-    }
+    } 
 
-    if (req.body.approval === '0') {
+    if (req.body.approval === false) {
       console.log('in set to false')
       await TripSignup.destroy({
         where: {

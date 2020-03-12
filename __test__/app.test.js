@@ -176,7 +176,7 @@ describe('app', () => {
 
         const result = await mockRequest
           .delete(`/events/1`)
-          .send({ organizer_user_id: 8, trip_id: tripId })
+          .send({ organizer_user_id: 1, trip_id: tripId })
         expect(result.status).toBe(204);
       })
 
@@ -219,7 +219,6 @@ describe('app', () => {
           .set('Authorization', `Bearer ${token}`)
           .send(userToApprove)
         expect(result.status).toBe(201);
-
       })
     })
   })

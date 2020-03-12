@@ -110,30 +110,30 @@ async function updateEvent(req, res, next) {
 async function deleteEvent(req, res, next) {
   // console.log('req param id', req.params.id)
   const eventId = req.params.event_id
-  // console.log('req.body',req.body)
-
-  const isCoordinator = await Trip.findAll({
-    where: {
-      organizer_user_id: req.body.organizer_user_id,
-      id: req.body.trip_id
-    }
-  })
-    // console.log('isCoord',isCoordinator)
-    try {
-      if (isCoordinator.length > 0) {
-        const result = await Event.destroy({
-          where: { id: eventId }
-        })
-            // console.log('Event Deleted')
-            res.status(204).json(result)
-      } else {
-        res.status(401).json('Access Denied')
+  try {
+    const trip = await Trip.findOne({
+      include: {
+        association: 'events',
+        where: { id: req.params.event_id }
       }
+    })
+    const isCoordinator = trip.organizer_user_id == req.body.organizer_user_id
+    console.log(`${trip.organizer_user_id}, ${req.body.organizer_user_id}`);
+    if (isCoordinator) {
 
-    } catch(err) {
-      next(err)
+      const result = await Event.destroy({
+        where: { id: eventId }
+      })
+      console.log('Event Deleted')
+      res.status(204).json(result)
+    } else {
+      res.status(401).json('Access Denied')
+    }
+
+  } catch (err) {
+    next(err)
   }
-    
+
 }
 
 module.exports = { addEvent, getEventsFromTrip, updateEvent, deleteEvent };
