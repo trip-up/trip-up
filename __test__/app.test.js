@@ -16,6 +16,7 @@ describe('app', () => {
     await sequelize.authenticate()
     await sequelize.sync();
     let token;
+    let tripId;
   });
 
   afterAll(async () => {
@@ -60,7 +61,7 @@ describe('app', () => {
           .post('/signup')
           .send(newUser);
         token = result.body.token;
-        console.log('token', token);
+        // console.log('token', token);
 
         expect(result.status).toBe(201);
       })
@@ -80,7 +81,10 @@ describe('app', () => {
           .post('/trips')
           .set('Authorization', `Bearer ${token}`)
           .send(newTrip);
-
+          tripId = result.body.trip_created.id
+          // console.log('result.body during post',result.body)
+          // console.log('tripId',tripId)
+          
         expect(result.status).toBe(201);
       })
 
@@ -103,37 +107,26 @@ describe('app', () => {
       })
 
       it('allows the trip organizer to delete their trips', async () => {
-        // const newTrip = {
-        //   trip_id: '1',
-        //   name: 'Trip to Paradise',
-        //   destination: 'Hawaii',
-        //   start_day: '2020-11-20',
-        //   end_day: '2020-11-22',
-        //   cost: 1000,
-        // }
-
-        // await mockRequest
-        //   .post('/trips')
-        //   .send(newTrip);
-
         const result = await mockRequest
-          .delete(`/trips/1`)
+          .delete(`/trips/${tripId}`)
           .set('Authorization', `Bearer ${token}`)
-
+        // console.log('result.body',result.body)
         expect(result.status).toBe(204);
       })
     })
 
     describe('/events', () => {
-      xit('creates a new event with a post request', async () => {
+      it('creates a new event with a post request', async () => {
         const newEvent = {
           name: 'Hawaii Luau',
           start_day: '2020-11-20',
-          end_day: '2020-11-20'
+          end_day: '2020-11-20',
+          organizer_user_id: 8
         }
         const result = await mockRequest
-          .post('/events')
-          .send(newEvent);
+          .post(`/events/3`)
+          .send(newEvent)
+          .set('Authorization', `Bearer ${token}`)
 
         expect(result.status).toBe(201);
 

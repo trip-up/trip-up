@@ -3,6 +3,7 @@
  * @description Callback functions for Trip routes
  */
 const { Trip } = require('./../../orm/index')
+const { ERRORS } = require('./../../../config/serverSettings')
 
 /**
  * @function createTrip
@@ -122,7 +123,7 @@ async function getAllTrips(req, res, next) {
         //if the user just wants all trips
         if (!req.query.coordinating && !req.query.attending) {
           //change the members value.
-          console.log(allTripsForUsers)
+          // console.log(allTripsForUsers)
           allTripsForUsers.forEach(trip => {
             trip.dataValues.members = trip.members.length;
             trip.memebers = trip.members.length;
@@ -259,12 +260,12 @@ async function deleteTrip(req, res, next) {
 
   try {
     await Trip.destroy({
-      where: { trip_id: req.params.trip_id }
+      where: { id: req.params.trip_id }
     })
     res.status(204).json({ result: 'deleted the resource!' })
   } catch (err) {
     console.error(err.message)
-    throw new Error(ERRORS.delete)
+    next(ERRORS.delete)
   }
 }
 

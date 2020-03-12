@@ -88,7 +88,7 @@ async function addEventsToTrips() {
       eventsToInsert.push({ trip_id: event.trip_id, event_id: event.id })
     })
   })
-  console.log(eventsToInsert)
+  // console.log(eventsToInsert)
   await DB.TripHasEvent.bulkCreate(eventsToInsert)
 }
 
