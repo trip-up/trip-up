@@ -191,7 +191,7 @@ async function getOneTrip(req, res, next) {
         },
         {
           association: 'events',
-          attributes: [ 'name', 'start_day', 'end_day' ],
+          attributes: ['name', 'start_day', 'end_day'],
           through: { attributes: [] }
         }]
       };
@@ -216,7 +216,7 @@ async function getOneTrip(req, res, next) {
         }
       }
 
-
+    }
     //if they are a member of the trip
     if (req.user.role_id === 2 && onTrip) {
       queryOptions = {
@@ -231,13 +231,15 @@ async function getOneTrip(req, res, next) {
         },
         {
           association: 'event',
-          attributes: [ 'name', 'start_day', 'end_day' ],
+          attributes: ['name', 'start_day', 'end_day'],
           through: { attributes: [] }
-        }
+        }]
       }
-      //execute the query
-      const foundTrip = await Trip.findByPk(id, queryOptions)
-                  
+    }
+
+    //execute the query
+    const foundTrip = await Trip.findByPk(id, queryOptions)
+
     //query trip events
 
     //if the person is not on the trip, only return the length of members.
@@ -246,10 +248,8 @@ async function getOneTrip(req, res, next) {
     }
     console.log(foundTrip.members);
 
+    res.status(200).json({ result: foundTrip })
 
-      res.status(200).json({ result: foundTrip })
-
-    }
   } catch (err) {
     next(err);
   }
@@ -261,7 +261,7 @@ async function deleteTrip(req, res, next) {
     await Trip.destroy({
       where: { trip_id: req.params.trip_id }
     })
-    res.status(204).json({result: 'deleted the resource!'})
+    res.status(204).json({ result: 'deleted the resource!' })
   } catch (err) {
     console.error(err.message)
     throw new Error(ERRORS.delete)
@@ -280,7 +280,7 @@ async function updateTrip(req, res, next) {
         cost: req.body.cost,
         type: req.body.type,
       },
-      {where: {id: req.params.id}}
+      { where: { id: req.params.id } }
     )
   } catch (err) {
     console.error(err.message)
