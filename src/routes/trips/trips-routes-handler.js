@@ -121,12 +121,13 @@ async function getAllTrips(req, res, next) {
           include: [
             {
               association: 'members',
-              attributes: [ 'id'] ,
+              attributes: ['id'],
               through: { attributes: [] }
             },
-            { association: 'organizer',
-              attributes: ['name', 'phone', 'id']    
-          }
+            {
+              association: 'organizer',
+              attributes: ['name', 'phone', 'id']
+            }
           ]
         })
 
@@ -144,7 +145,7 @@ async function getAllTrips(req, res, next) {
           //the user wants the trips they are attending
         } else if (req.query.attending) {
           const tripsAttending = allTripsForUsers.filter(trip => trip.members.find(member => memeber.id === userId))
-          res.status(200).json({results: tripsAttending})
+          res.status(200).json({ results: tripsAttending })
           //the user wants the trips they are coordinating
         } else if (req.query.coordinating) {
           const tripsCoordinating = allTripsForUsers.filter(trip => trip.organizer.id === userId)
@@ -225,47 +226,69 @@ async function getOneTrip(req, res, next) {
       queryOptions = {
         include: [{
           association: 'members',
-          attributes: { exclude: ['password'] },
-          through: { attributes: [] }
+          through: { attributes: [] },
+          attributes: ['id']
         },
         {
           association: 'organizer',
           attributes: ['phone', 'name']
         }]
-      }
-    }
+      };
 
-    //if they are a member of the trip
-    if (req.user.role_id === 2 && onTrip) {
-      queryOptions = {
-        include: [{
-          association: 'members',
-          attributes: ['name', 'phone', 'email', 'city', 'picture'],
-          through: { attributes: [] }
-        },
-        {
-          association: 'organizer',
-          attributes: ['phone', 'name']
+      const checkTrip = await Trip.findByPk(id, queryOptions)
+
+      const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
+      console.log(onTrip);
+
+      //if they are an admin or the coordinator of the trip
+      if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {
+        queryOptions = {
+          include: [{
+            association: 'members',
+            attributes: { exclude: ['password'] },
+            through: { attributes: [] }
+          },
+          {
+            association: 'organizer',
+            attributes: ['phone', 'name']
+          }]
         }
-        ],
       }
-    }
-    //execute the query
-    const foundTrip = await Trip.findByPk(id, queryOptions)
 
-    //if the person is not on the trip, only return the length of members.
-    if (req.user.role_id === 2 && !onTrip) {
-      foundTrip.dataValues.members = foundTrip.members.length;
-    }
-    console.log(foundTrip.members);
+      //if they are a member of the trip
+      if (req.user.role_id === 2 && onTrip) {
+        queryOptions = {
+          include: [{
+            association: 'members',
+            attributes: ['name', 'phone', 'email', 'city', 'picture'],
+            through: { attributes: [] }
+          },
+          {
+            association: 'organizer',
+            attributes: ['phone', 'name']
+          }
+          ],
+        }
+      }
+      //execute the query
+      const foundTrip = await Trip.findByPk(id, queryOptions)
 
-    res.status(200).json({ result: foundTrip })
+      //if the person is not on the trip, only return the length of members.
+      if (req.user.role_id === 2 && !onTrip) {
+        foundTrip.dataValues.members = foundTrip.members.length;
+      }
+      console.log(foundTrip.members);
+
+      res.status(200).json({ result: foundTrip })
+
+    }
   } catch (err) {
     next(err);
   }
-}
-}
 
+
+
+}
 
 function deleteTrip(req, res, next) {
   try {
@@ -274,7 +297,5 @@ function deleteTrip(req, res, next) {
     next(err);
   }
 }
-
-
 module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip }
 
