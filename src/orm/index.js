@@ -16,8 +16,14 @@ const createTripHasUser = require('./models/trip_has_user.schema')
 /**
  * Instantiate our sequelize object
  */
-const sequelize = new Sequelize('trip_up', 'root', process.env.DB_PASSWORD, {
-  host: 'localhost',
+
+const findHost = process.env.DB_HOST || 'localhost';
+const findDatabase = process.env.DB_DATABASE || 'trip_up';
+const findUsername = process.env.DB_USERNAME || 'root';
+const findPassword = process.env.DB_PASSWORD;
+
+const sequelize = new Sequelize(findDatabase, findUsername, findPassword, {
+  host: findHost,
   dialect: 'mysql',
   logging: false,
 })

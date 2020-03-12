@@ -94,8 +94,17 @@ describe('app', () => {
       })
 
       it('lists one trip when given a trip id at GET request', async () => {
+
+        const result = await mockRequest
+          .get('/trips/1')
+          .set('Authorization', `Bearer ${token}`)
+
+        expect(result.status).toBe(200);
+      })
+
+      it('allows the trip organizer to delete their trips', async () => {
         // const newTrip = {
-        //   trip_id: 1,
+        //   trip_id: '1',
         //   name: 'Trip to Paradise',
         //   destination: 'Hawaii',
         //   start_day: '2020-11-20',
@@ -105,32 +114,11 @@ describe('app', () => {
 
         // await mockRequest
         //   .post('/trips')
-        //   .set('Authorization', `Bearer ${token}`)
         //   .send(newTrip);
 
         const result = await mockRequest
-          .get('/trips/1')
+          .delete(`/trips/1`)
           .set('Authorization', `Bearer ${token}`)
-
-        expect(result.status).toBe(200);
-      })
-
-      xit('allows the trip organizer to delete their trips', async () => {
-        const newTrip = {
-          trip_id: '1',
-          name: 'Trip to Paradise',
-          destination: 'Hawaii',
-          start_day: '2020-11-20',
-          end_day: '2020-11-22',
-          cost: 1000,
-        }
-
-        await mockRequest
-          .post('/trips')
-          .send(newTrip);
-
-        const result = await mockRequest
-          .delete(`/trips/${newTrip.trip_id}`)
 
         expect(result.status).toBe(204);
       })
