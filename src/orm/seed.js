@@ -106,11 +106,11 @@ async function addUsersToTrips() {
 
   trips.forEach((trip, idx) => {
     tripUsers[idx].forEach((user_id) => {
-      tripUsersInsert.push({ trip_id: trip.id, user_id })
+      tripUsersInsert.push({ trip_id: trip.id, user_id, approval: false })
     })
   })
 
-  await DB.TripHasUser.bulkCreate(tripUsersInsert);
+  await DB.TripSignup.bulkCreate(tripUsersInsert);
 
 }
 

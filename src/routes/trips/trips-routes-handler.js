@@ -182,8 +182,8 @@ async function getOneTrip(req, res, next) {
       queryOptions = {
         include: [{
           association: 'members',
-          attributes: { exclude: ['password'] },
-          through: { attributes: [] }
+          through: { attributes: [] },
+          attributes: ['id']
         },
         {
           association: 'organizer',
@@ -194,8 +194,28 @@ async function getOneTrip(req, res, next) {
           attributes: [ 'name', 'start_day', 'end_day' ],
           through: { attributes: [] }
         }]
+      };
+
+      const checkTrip = await Trip.findByPk(id, queryOptions)
+
+      const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
+      console.log(onTrip);
+
+      //if they are an admin or the coordinator of the trip
+      if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {
+        queryOptions = {
+          include: [{
+            association: 'members',
+            attributes: { exclude: ['password'] },
+            through: { attributes: [] }
+          },
+          {
+            association: 'organizer',
+            attributes: ['phone', 'name']
+          }]
+        }
       }
-    }
+
 
     //if they are a member of the trip
     if (req.user.role_id === 2 && onTrip) {
@@ -214,12 +234,10 @@ async function getOneTrip(req, res, next) {
           attributes: [ 'name', 'start_day', 'end_day' ],
           through: { attributes: [] }
         }
-        ],
       }
-    }
-    //execute the query
-    const foundTrip = await Trip.findByPk(id, queryOptions)
-
+      //execute the query
+      const foundTrip = await Trip.findByPk(id, queryOptions)
+                  
     //query trip events
 
     //if the person is not on the trip, only return the length of members.
@@ -228,13 +246,17 @@ async function getOneTrip(req, res, next) {
     }
     console.log(foundTrip.members);
 
-    res.status(200).json({ result: foundTrip })
+
+      res.status(200).json({ result: foundTrip })
+
+    }
   } catch (err) {
     next(err);
   }
 }
 
 async function deleteTrip(req, res, next) {
+
   try {
     await Trip.destroy({
       where: { trip_id: req.params.trip_id }
@@ -266,4 +288,3 @@ async function updateTrip(req, res, next) {
   }
 }
 module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip, updateTrip }
-
