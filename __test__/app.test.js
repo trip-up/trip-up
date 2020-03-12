@@ -116,6 +116,8 @@ describe('app', () => {
     })
 
     describe('/events', () => {
+      let eventId;
+      const tripId = 3;
       it('creates a new event with a post request', async () => {
         const newEvent = {
           name: 'Hawaii Luau',
@@ -126,13 +128,14 @@ describe('app', () => {
         const result = await mockRequest
           .post(`/events/3`)
           .send(newEvent)
-          .set('Authorization', `Bearer ${token}`)
+          // .set('Authorization', `Bearer ${token}`)
+          eventId = result.body.id
 
         expect(result.status).toBe(201);
 
       })
 
-      xit('gets events based on a trip_id', async () => {
+      it('gets events based on a trip_id', async () => {
 
         const newEvent = {
           id: 1,
@@ -151,7 +154,7 @@ describe('app', () => {
 
       })
 
-      xit('gets a single event based on the event id', async () => {
+      it('gets a single event based on the event id', async () => {
         const newEvent = {
           id: 1,
           name: 'Hawaii Luau',
@@ -169,21 +172,11 @@ describe('app', () => {
 
       })
 
-      xit('allows the trip organizer to delete an event', async () => {
+      it('allows the trip organizer to delete an event', async () => {
 
-        const newEvent = {
-          event_id: '1',
-          name: 'Hawaii Luau',
-          start_day: '2020-11-20',
-          end_day: '2020-11-20'
-        }
-
-        await mockRequest
-          .post('/events')
-          .send(newEvent);
         const result = await mockRequest
-          .delete(`/events/${newEvent.event_id}`);
-
+          .delete(`/events/1`)
+          .send({ organizer_user_id: 8, trip_id: tripId })
         expect(result.status).toBe(204);
       })
 

@@ -43,6 +43,6 @@ eventRouter.put('/events/:id', updateEvent)
  * @example http delete :3001/events/17 organizer_user_id=<organizer_user_id>
 
  */
-eventRouter.delete('/events/:id', deleteEvent)
+eventRouter.delete('/events/:event_id', deleteEvent)
 
 module.exports = eventRouter;

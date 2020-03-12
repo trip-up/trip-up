@@ -247,7 +247,7 @@ async function getOneTrip(req, res, next) {
     if (req.user.role_id === 2 && !onTrip) {
       foundTrip.dataValues.members = foundTrip.members.length;
     }
-    console.log(foundTrip.members);
+    // console.log(foundTrip.members);
 
     res.status(200).json({ result: foundTrip })
 
