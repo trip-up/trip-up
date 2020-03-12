@@ -264,7 +264,6 @@ async function getOneTrip(req, res, next) {
     next(err);
   }
 }
-}
 
 
 function deleteTrip(req, res, next) {
