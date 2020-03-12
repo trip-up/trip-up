@@ -1,4 +1,4 @@
-/**
+/**woooooo
  * @module "trips-route-handler"
  * @description Callback functions for Trip routes
  */
@@ -7,19 +7,12 @@ const { Trip } = require('./../../orm/index')
 /**
  * @function createTrip
  * @description This function creates one trip and adds it to the DB. 
- * @param {*} req
+ * @param {*} req - request body with fields for trip
  * @param {*} res
  * @param {*} next 
  * @example POST /trips with body: name<string>, destination<string>, start<yyyy-mm-dd>, end<yyy-mm-dd>, cost<number>
  */
 async function createTrip(req, res, next) {
-  //this will mock the request object.. 
-  // req.user = {
-  //   id: 1,
-  //   name: 'tyler',
-  //   role_id: 1
-  // }
-
   try {
 
     const { name, destination, start, end, cost, type, } = req.body;
@@ -33,7 +26,6 @@ async function createTrip(req, res, next) {
       organizer_user_id: req.user.id
     })
     res.status(201).json({ trip_created: newTrip })
-
 
   } catch (err) {
     next(err);
@@ -52,12 +44,7 @@ async function createTrip(req, res, next) {
  * @param {*} next 
  */
 async function getAllTrips(req, res, next) {
-  req.user = {
-    name: 'tyler',
-    id: 2,
-    role_id: 2
-  }
-
+  // if not a member
   if (!req.user) {
     const allTripsForAnonymous = await Trip.findAll({
       include:
@@ -74,12 +61,10 @@ async function getAllTrips(req, res, next) {
     })
     res.status(200).json({ results: allTripsForAnonymous })
   } else {
-
+    // if a user
     const userId = req.user.id;
 
     try {
-
-
 
       //an admin is trying to get all trips with all users. 
       if (req.user.role_id === 1) {
@@ -96,9 +81,12 @@ async function getAllTrips(req, res, next) {
             }
           ]
         })
+        //trips
+        //trips?coordinating=true
+        //trips?attending=true
 
         //if the admin wants all trips.
-        if (Object.keys(req.query).length === 0) {
+        if (!req.query.coordinating && !req.query.attending) {
           res.status(200).json({ results: allTrips });
 
           //if the admin only wants trips they are coordinating
@@ -121,17 +109,18 @@ async function getAllTrips(req, res, next) {
           include: [
             {
               association: 'members',
-              attributes: [ 'id'] ,
+              attributes: ['id'],
               through: { attributes: [] }
             },
-            { association: 'organizer',
-              attributes: ['name', 'phone', 'id']    
-          }
+            {
+              association: 'organizer',
+              attributes: ['name', 'phone', 'id']
+            }
           ]
         })
 
         //if the user just wants all trips
-        if (Object.keys(req.query).length === 0) {
+        if (!req.query.coordinating && !req.query.attending) {
           //change the members value.
           console.log(allTripsForUsers)
           allTripsForUsers.forEach(trip => {
@@ -144,7 +133,7 @@ async function getAllTrips(req, res, next) {
           //the user wants the trips they are attending
         } else if (req.query.attending) {
           const tripsAttending = allTripsForUsers.filter(trip => trip.members.find(member => memeber.id === userId))
-          res.status(200).json({results: tripsAttending})
+          res.status(200).json({ results: tripsAttending })
           //the user wants the trips they are coordinating
         } else if (req.query.coordinating) {
           const tripsCoordinating = allTripsForUsers.filter(trip => trip.organizer.id === userId)
@@ -159,48 +148,16 @@ async function getAllTrips(req, res, next) {
 }
 
 /**
- * getOne trip is also funny for the same reasons. 
- * 
- * We need to give back data based on the user's role and based on whether or not they are the coordinator for the trip in question. 
- * 
- * This route should come in with a trip_id param on the req object, cooresponding to the trip the user wants to access.
- * example request command from httpie: 
- * 
- * http get :3000/trips/2 "authentication: bearer aljshdfas9df9as7fp3mro8y9en3onf3$asfd" (this token is an admin)
- * 
- * gives: 
- * "result": {
-        "cost": 2000,
-        "createdAt": "2020-03-10T19:46:34.000Z",
-        "destination": "olympics",
-        "end_day": "1981-08-12T00:00:00.000Z",
-        "id": 2,
-        "members": [
-            {
-                "city": "Istambul",
-                "createdAt": "2020-03-10T19:46:34.000Z",
-                "email": "anopolis59393@pete.com",
-                "id": 2,
-                "name": "Tyler",
-                "phone": "2055503939",
-                "picture": "http://picture.com",
-                "role_id": 1,
-                "updatedAt": "2020-03-10T19:46:34.000Z"
-              },  
-              ...  etc
-              
-              * 
-              */
-
+ * @function getOneTrip
+ * @description getOne trip is also funny for the same reasons.
+ * <br> We need to give back data based on the user's role and based on whether or not they are the coordinator for the trip in question.
+ * <br> This route should come in with a trip_id param on the req object, cooresponding to the trip the user wants to access.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @example http get :3000/trips/2 "authentication: bearer aljshdfas9df9as7fp3mro8y9en3onf3$asfd" (this token is an admin)
+ */
 async function getOneTrip(req, res, next) {
-  //another mock user on the req obj here.
-  // req.user = {
-  //   id: 68,
-  //   name: 'tyler',
-  //   role_id: 2
-  // }
-
-
   try {
     //find the trip were talking about, so we can figure out if this person in on the trip.
     const id = parseInt(req.params.trip_id);
@@ -225,15 +182,40 @@ async function getOneTrip(req, res, next) {
       queryOptions = {
         include: [{
           association: 'members',
-          attributes: { exclude: ['password'] },
-          through: { attributes: [] }
+          through: { attributes: [] },
+          attributes: ['id']
         },
         {
           association: 'organizer',
           attributes: ['phone', 'name']
+        },
+        {
+          association: 'events',
+          attributes: [ 'name', 'start_day', 'end_day' ],
+          through: { attributes: [] }
         }]
+      };
+
+      const checkTrip = await Trip.findByPk(id, queryOptions)
+
+      const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
+      console.log(onTrip);
+
+      //if they are an admin or the coordinator of the trip
+      if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {
+        queryOptions = {
+          include: [{
+            association: 'members',
+            attributes: { exclude: ['password'] },
+            through: { attributes: [] }
+          },
+          {
+            association: 'organizer',
+            attributes: ['phone', 'name']
+          }]
+        }
       }
-    }
+
 
     //if they are a member of the trip
     if (req.user.role_id === 2 && onTrip) {
@@ -245,13 +227,18 @@ async function getOneTrip(req, res, next) {
         },
         {
           association: 'organizer',
-          attributes: ['phone', 'name']
+          attributes: ['phone', 'name', 'email', 'city', 'picture']
+        },
+        {
+          association: 'event',
+          attributes: [ 'name', 'start_day', 'end_day' ],
+          through: { attributes: [] }
         }
-        ],
       }
-    }
-    //execute the query
-    const foundTrip = await Trip.findByPk(id, queryOptions)
+      //execute the query
+      const foundTrip = await Trip.findByPk(id, queryOptions)
+                  
+    //query trip events
 
     //if the person is not on the trip, only return the length of members.
     if (req.user.role_id === 2 && !onTrip) {
@@ -259,21 +246,45 @@ async function getOneTrip(req, res, next) {
     }
     console.log(foundTrip.members);
 
-    res.status(200).json({ result: foundTrip })
+
+      res.status(200).json({ result: foundTrip })
+
+    }
   } catch (err) {
     next(err);
   }
 }
 
+async function deleteTrip(req, res, next) {
 
-function deleteTrip(req, res, next) {
   try {
-    res.status(204).json('Trip Deleted!')
+    await Trip.destroy({
+      where: { trip_id: req.params.trip_id }
+    })
+    res.status(204).json({result: 'deleted the resource!'})
   } catch (err) {
-    next(err);
+    console.error(err.message)
+    throw new Error(ERRORS.delete)
   }
 }
 
-
-module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip }
-
+async function updateTrip(req, res, next) {
+  try {
+    // admin or is coordinator
+    await Trip.updateTrip(
+      {
+        name: req.body.name,
+        destination: req.body.destination,
+        start_day: req.body.start_day,
+        end_day: req.body.end_day,
+        cost: req.body.cost,
+        type: req.body.type,
+      },
+      {where: {id: req.params.id}}
+    )
+  } catch (err) {
+    console.error(err.message)
+    throw new Error(ERRORS.update)
+  }
+}
+module.exports = { createTrip, getAllTrips, getOneTrip, deleteTrip, updateTrip }

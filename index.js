@@ -3,6 +3,7 @@ require('dotenv').config()
 const { PORT } = process.env
 console.log(PORT)
 
+
 const { sequelize } = require('./src/orm/index');
 
 sequelize.authenticate()
@@ -19,4 +20,5 @@ sequelize.authenticate()
   .catch(err => {
     console.error(err);
   })
+
 

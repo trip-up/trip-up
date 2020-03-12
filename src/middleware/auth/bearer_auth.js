@@ -1,3 +1,6 @@
+/**
+ * @module bearer_auth
+ */
 const jwt = require('jsonwebtoken')
 
 const SECRET= process.env.SECRET
@@ -13,7 +16,6 @@ function bearerAuth (req, res, next) {
 
   req.user = jwt.verify(token, SECRET)
   next()
-
 }
 
 module.exports = bearerAuth

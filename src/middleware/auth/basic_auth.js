@@ -1,3 +1,6 @@
+/**
+ * @module basic_auth
+ */
 const base64 = require('base-64')
 const { User } = require('../../orm/index')
 const bcrypt = require('bcrypt')
@@ -16,6 +19,7 @@ function basicAuth(req, res, next) {
             if (!userInfo) next('bad credentials sucka')
             const { name, email, role_id, id } = userInfo
             req.user = { id, name, role_id, email }
+            
             req.token = generateToken(id, name, email, role_id);
             next()
         })
