@@ -4,7 +4,7 @@
   "description": "Organization app for planning group travel",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json",
     "dev": "nodemon index.js"
   },
