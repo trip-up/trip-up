@@ -141,7 +141,7 @@ async function createMessages() {
   await DB.Message.bulkCreate(messages);
 }
 
-(async () => {
+async function seed() {
   try {
     await rebuildDB();
     await createRoles();
@@ -154,4 +154,6 @@ async function createMessages() {
   } catch (err) {
     console.log(err);
   }
-})();
+};
+
+module.exports = seed
