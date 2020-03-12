@@ -6,7 +6,12 @@
   "scripts": {
     "test": "jest",
     "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
   },
   "repository": {
     "type": "git",
