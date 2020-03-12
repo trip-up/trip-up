@@ -12,7 +12,7 @@ async function signUp(req, res, next) {
         email: req.body.email,
         name: req.body.name,
         city: req.body.city,
-        password: await bcrypt.hash(req.body.password, 5),
+        // password: await bcrypt.hash(req.body.password, 5),
         phone: req.body.phone,
         role_id: defaultRole
       }
@@ -44,18 +44,17 @@ async function updateUser(req, res, next) {
   const id = parseInt(req.params.id)
   let record = req.body
 
-  console.log(id, req.user.role_id, req.user.id)
-  if(req.user.role_id !== 1) {
-    res.status(403).json('You do not have authorization')
-  }
+  console.log('the params', id, req.user.role_id, req.user.id)
 
-  if(req.user.role_id === 1){ 
+  if(req.user.role_id ===1 || req.user.id === id) {
+  // if(req.user.role_id === 1){ 
+    // let pw = await bcrypt.hash(record.password, 5)
     console.log('inside if')
     await User.update({
       email: record.email,
       name: record.name,
       city: record.city,
-      password: await bcrypt.hash(req.body.password, 5),
+      // password: pw,
       phone: record.phone,
     }, 
     { where : { id }}
@@ -63,17 +62,17 @@ async function updateUser(req, res, next) {
     .then(function (result) {
       res.status(201).json(`${result} record updated`)
     })
-    .catch(next)
+      .catch(next)
+  } else {
+    res.status(403).json('You do not have authorization') 
   }
 }
 
 //Delete User
 async function deleteUser(req, res, next) {
   const id = parseInt(req.params.id)
-  if(req.user.role_id !==1) {
-    res.status(403).json('You do not have authorization')
-  }
-  if(req.user.role_id ===1) {
+
+  if(req.user.role_id ===1 || req.user.id === id) {
     await User.destroy({
       where: {id}
     })
@@ -81,6 +80,8 @@ async function deleteUser(req, res, next) {
       res.status(200).json(`${result} user deleted`)
     })
     .catch(next)
+  } else {
+    res.status(403).json('You do not have authorization') 
   }
 }
 
