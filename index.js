@@ -4,7 +4,7 @@ const { PORT } = process.env
 console.log(PORT)
 
 
-const { sequelize, Trip, User } = require('./src/orm/index');
+const { sequelize } = require('./src/orm/index');
 
 sequelize.authenticate()
   .then(() => {
@@ -22,28 +22,3 @@ sequelize.authenticate()
   })
 
 
-// const test = async () => {
-
-
-//   return await Trip.findByPk(1, {
-//     include: {
-//       association: 'members',
-//       through: {
-//         attributes: []
-//       },
-//       attributes: {
-//         exclude: ['password']
-//       },
-//       include: {
-//         association: 'role',
-//         where: { name: 'admin' },
-//         attributes: []
-//       }
-//     }
-//   })
-// }
-
-// test()
-//   .then(result => {
-//     console.log('result', JSON.parse(JSON.stringify(result.dataValues)))
-//   })

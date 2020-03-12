@@ -10,7 +10,7 @@ const eventRouter = express.Router();
 const { addEvent, getEventsFromTrip, updateEvent, deleteEvent } = require('./events-route-handlers')
 
 /**
- * http post :3001/events/1 name='Go to beach with hank' start_day='2020-1-10' end_day='2020-1-15'
+ * http post :3001/events/1 organizer_user_id=1 name='Go to beach with hank' start_day='2020-1-10' end_day='2020-1-15'
  */
 eventRouter.post('/events/:trip_id', addEvent)
 
@@ -20,12 +20,12 @@ eventRouter.post('/events/:trip_id', addEvent)
 eventRouter.get('/events/:trip_id', getEventsFromTrip)
 
 /**
- * http put :3001/events/23 name='Go to beach'
+ * // http PUT :3000/events/23 organizer_user_id=<organizer_user_id> name=<name-updating-to>
  */
 eventRouter.put('/events/:id', updateEvent)
 
 /**
- * http delete :3001/events/17
+ * http delete :3001/events/17 organizer_user_id=<organizer_user_id>
  */
 eventRouter.delete('/events/:id', deleteEvent)
 
