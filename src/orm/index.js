@@ -10,7 +10,7 @@ const createRoleModel = require('./models/role.schema');
 const createTripHasUser = require('./models/trip_has_user.schema');
 const createTrip = require('./models/trip.schema');
 const createUserModel = require('./models/user.schema');
-
+const createTripHasEvent = require('./models/trip-has-event')
 
 /**
  * Instantiate our sequelize object
@@ -18,7 +18,7 @@ const createUserModel = require('./models/user.schema');
 const sequelize = new Sequelize('trip_up', 'root', process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'mysql',
-  logging: false
+  logging: true,
 })
 
 const Event = createEventModel(sequelize);
@@ -27,16 +27,15 @@ const Role = createRoleModel(sequelize);
 const TripHasUser = createTripHasUser(sequelize);
 const Trip = createTrip(sequelize);
 const User = createUserModel(sequelize);
+const TripHasEvent = createTripHasEvent(sequelize);
 
 
-Event.belongsTo(Trip, { foreignKey: 'trip_id' });
+Trip.belongsToMany(Event, { through: TripHasEvent, as: 'events', foreignKey: 'trip_id', otherKey: 'event_id' });
 Message.belongsTo(Trip, { foreignKey: 'trip_id' });
 Message.belongsTo(User, { foreignKey: 'sender_user_id' });
 Message.belongsTo(User, { foreignKey: 'recipient_user_id' });
-// TripHasUser.belongsTo(User, { foreignKey: 'user_id' })
-// TripHasUser.belongsTo(Trip, { foreignKey: 'trip_id' })
 Trip.belongsToMany(User, { through: TripHasUser, as: 'members', foreignKey: 'trip_id', otherKey: 'user_id' })
 Trip.belongsTo(User, { foreignKey: 'organizer_user_id', as: 'organizer' });
 User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 
-module.exports = { sequelize, Event, Message, Role, TripHasUser, Trip, User };
+module.exports = { sequelize, Event, Message, Role, TripHasUser, Trip, User, TripHasEvent };
