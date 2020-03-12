@@ -35,8 +35,24 @@ async function getAllUsers(req, res, next) {
   if(req.user.role_id === 1) {
   const allUsers = await User.findAll({})
   res.status(200).json({allUsers})
-  .catch(next)
+}
+next()
+}
+
+//Get One User
+async function getOneUser(req, res, next) { 
+  const id = parseInt(req.params.id)
+  if(req.user.role_id !==1) {
+    res.status(403).json('You do not have authorization')
   }
+  if(req.user.role_id === 1) {
+    console.log('in if')
+    const userInfo = await User.findOne({
+      where: {id}
+    })
+    res.status(200).json({userInfo})
+  }
+  next()
 }
 
 //Update User
@@ -44,10 +60,7 @@ async function updateUser(req, res, next) {
   const id = parseInt(req.params.id)
   let record = req.body
 
-  console.log('the params', id, req.user.role_id, req.user.id)
-
   if(req.user.role_id ===1 || req.user.id === id) {
-    console.log('inside if')
     await User.update({
       email: record.email,
       name: record.name,
@@ -58,7 +71,7 @@ async function updateUser(req, res, next) {
     { where : { id }}
     )
     .then(function (result) {
-      res.status(201).json(`${result} record updated`)
+      res.status(200).json(`${result} record updated`)
     })
       .catch(next)
   } else {
@@ -83,4 +96,4 @@ async function deleteUser(req, res, next) {
   }
 }
 
-module.exports = { signUp, signIn, getAllUsers, updateUser, deleteUser }
+module.exports = { signUp, signIn, getAllUsers, updateUser, deleteUser, getOneUser }
