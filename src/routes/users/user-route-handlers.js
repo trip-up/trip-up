@@ -12,7 +12,7 @@ async function signUp(req, res, next) {
         email: req.body.email,
         name: req.body.name,
         city: req.body.city,
-        // password: await bcrypt.hash(req.body.password, 5),
+        password: await bcrypt.hash(req.body.password, 5),
         phone: req.body.phone,
         role_id: defaultRole
       }
@@ -47,14 +47,12 @@ async function updateUser(req, res, next) {
   console.log('the params', id, req.user.role_id, req.user.id)
 
   if(req.user.role_id ===1 || req.user.id === id) {
-  // if(req.user.role_id === 1){ 
-    // let pw = await bcrypt.hash(record.password, 5)
     console.log('inside if')
     await User.update({
       email: record.email,
       name: record.name,
       city: record.city,
-      // password: pw,
+      // password: await bcrypt.hash(record.password, 5),
       phone: record.phone,
     }, 
     { where : { id }}
