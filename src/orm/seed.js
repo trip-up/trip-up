@@ -85,11 +85,11 @@ async function addUsersToTrips() {
 
   trips.forEach((trip, idx) => {
     tripUsers[idx].forEach((user_id) => {
-      tripUsersInsert.push({ trip_id: trip.id, user_id })
+      tripUsersInsert.push({ trip_id: trip.id, user_id, approval: false })
     })
   })
 
-  await DB.TripHasUser.bulkCreate(tripUsersInsert);
+  await DB.TripSignup.bulkCreate(tripUsersInsert);
 
 }
 
@@ -97,7 +97,7 @@ async function createTrips() {
   const trips = [
     { destination: 'portugal', name: 'potugeseesss!', start_day: '1990-12-29', end_day: '1991-04-12', cost: 2.99, type: 'vacation', organizer_user_id: 1 },
     { destination: 'olympics', name: 'pot!', start_day: '1980-11-29', end_day: '1981-08-12', cost: 1999.99, type: 'vacation', organizer_user_id: 2 },
-    { destination: 'space', name: 'the final frontier? !', start_day: '1969-02-29', end_day: '1969-04-12', cost: 9999999.99, type: 'vacation' , organizer_user_id: 8 },
+    { destination: 'space', name: 'the final frontier? !', start_day: '1969-02-29', end_day: '1969-04-12', cost: 9999999.99, type: 'vacation', organizer_user_id: 8 },
   ]
   await DB.Trip.bulkCreate(trips);
 }

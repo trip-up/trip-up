@@ -23,6 +23,7 @@ module.exports = function (sequelize) {
     end_day: { type: Sequelize.DATE },
     cost: { type: Sequelize.INTEGER },
     type: { type: Sequelize.STRING },
+    organizer_user_id: { type: Sequelize.INTEGER }
 
   }, {
     sequelize,

@@ -8,6 +8,8 @@ const express = require('express')
 const roleRouter = express.Router();
 const ACL = require('../../middleware/accessControlList')
 const CREDENTIALS = require('../../../config/serverSettings')
+const bearerAuth = require('../../middleware/auth/bearer_auth')
+
 
 const { addRole, getRole, updateRole, deleteRole } = require('./roles-route-handlers')
 
