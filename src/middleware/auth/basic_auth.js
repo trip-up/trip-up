@@ -26,7 +26,7 @@ function basicAuth(req, res, next) {
     console.log(email, password)
     authenticateBasic(email, password)
         .then(userInfo => {
-            if (!userInfo) next('bad credentials sucka')
+            if (!userInfo) next('Invalid login. Please try again.')
             const { name, email, role_id, id } = userInfo
             req.user = { id, name, role_id, email }
             
