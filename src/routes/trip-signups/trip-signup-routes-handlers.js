@@ -24,11 +24,11 @@ async function signupForTrip(req, res, next) {
       user_id: req.body.user_id,
       approval: false,
     })
+  } catch (err) {
+    next('already signed up for this trip!');
+  }
     // console.log('approval pending', approvalPending)
     res.status(201).json('Trip sign-up pending approval')
-  } catch (err) {
-    next(err);
-  }
 }
 
 
@@ -84,13 +84,13 @@ async function approveUser(req, res, next) {
 
 
       // if approval value of true was given, it will update the users approval to true in TripSignup
-      if (req.body.approval === true) {
+      if (req.body.approval === 'true') {
         console.log('in set to true')
         await TripSignup.update({
           approval: 1
         }, {
           where: {
-            trip_id: req.body.trip_id,
+            trip_id: tripId,
             user_id: req.body.user_id,
           },
         })
@@ -98,13 +98,11 @@ async function approveUser(req, res, next) {
         res.status(201).json('Signup Approved!');
       }
       // if the approval value is not true, it will delete the user from TripSignup
-    } 
-
-    if (req.body.approval === false) {
+    } else {
       console.log('in set to false')
       await TripSignup.destroy({
         where: {
-          trip_id: req.body.trip_id,
+          trip_id: tripId,
           user_id: req.body.user_id,
         }
       });

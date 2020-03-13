@@ -1,6 +1,7 @@
 const { User } = require('../../orm/index')
 const bcrypt = require('bcrypt')
 const generateToken = require('../../util/generateToken')
+const { CREDENTIALS } = require('../../../config/serverSettings')
 
 const defaultRole = process.env.DEFAULTROLE
 
@@ -29,10 +30,10 @@ async function signIn(req, res, next) {
 
 //Get All Users 
 async function getAllUsers(req, res, next) {
-  if (req.user.role_id !== 1) {
+  if (req.user.role_id !== CREDENTIALS.ADMIN) {
     res.status(403).json('You do not have authorization')
   }
-  if (req.user.role_id === 1) {
+  if (req.user.role_id === CREDENTIALS.ADMIN) {
     const allUsers = await User.findAll({})
     res.status(200).json({ allUsers })
   }
@@ -42,10 +43,10 @@ async function getAllUsers(req, res, next) {
 //Get One User
 async function getOneUser(req, res, next) {
   const id = parseInt(req.params.id)
-  if (req.user.role_id !== 1) {
+  if (req.user.role_id !== CREDENTIALS.ADMIN) {
     res.status(403).json('You do not have authorization')
   }
-  if (req.user.role_id === 1) {
+  if (req.user.role_id === CREDENTIALS.ADMIN) {
     const userInfo = await User.findOne({
       where: { id }
     })
@@ -59,7 +60,7 @@ async function updateUser(req, res, next) {
   const id = parseInt(req.params.id)
   let record = req.body
 
-  if (req.user.role_id === 1 || req.user.id === id) {
+  if (req.user.role_id === CREDENTIALS.ADMIN || req.user.id === id) {
     await User.update({
       email: record.email,
       name: record.name,
@@ -82,7 +83,7 @@ async function updateUser(req, res, next) {
 async function deleteUser(req, res, next) {
   const id = parseInt(req.params.id)
 
-  if (req.user.role_id === 1 || req.user.id === id) {
+  if (req.user.role_id === CREDENTIALS.ADMIN || req.user.id === id) {
     await User.destroy({
       where: { id }
     })

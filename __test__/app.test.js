@@ -210,7 +210,7 @@ describe('app', () => {
           user_id: '1',
           trip_id: '2',
           organizer_user_id: 2,
-          approval: true
+          approval: 'true'
         }
         const result = await mockRequest
           .put('/trip-signups/2')

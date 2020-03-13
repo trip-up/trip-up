@@ -8,7 +8,7 @@ const SECRET= process.env.SECRET
 function bearerAuth (req, res, next) {
 //   check if we have an authorization header
   if (!req.headers.authorization) {
-    next(new Error('No authorization header'))
+    next('No authorization header, no token')
   }
   // if we have an authorization header it'll look like this:
   // "Bearer ufewinvwiubfknoernboernberonbkuwrnbvsfdlv"

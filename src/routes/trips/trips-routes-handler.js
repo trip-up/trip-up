@@ -4,6 +4,7 @@
  */
 const { Trip } = require('./../../orm/index')
 const { ERRORS } = require('./../../../config/serverSettings')
+const { CREDENTIALS } = require('../../../config/serverSettings')
 
 /**
  * @function createTrip
@@ -49,7 +50,7 @@ async function getAllTrips(req, res, next) {
   if (!req.user) {
     const allTripsForAnonymous = await Trip.findAll({
       include:
-      {
+      { 
         association: 'members',
         attributes: ['id']
       },
@@ -62,13 +63,13 @@ async function getAllTrips(req, res, next) {
     })
     res.status(200).json({ results: allTripsForAnonymous })
   } else {
-    // if a user
+    // if is a user
     const userId = req.user.id;
 
     try {
 
       //an admin is trying to get all trips with all users. 
-      if (req.user.role_id === 1) {
+      if (req.user.role_id === CREDENTIALS.ADMIN) {
         const allTrips = await Trip.findAll({
           include: [
             {
@@ -105,7 +106,7 @@ async function getAllTrips(req, res, next) {
         }
 
         //they are a user.
-      } else if (req.user.role_id === 2) {
+      } else if (req.user.role_id === CREDENTIALS.USER) {
         const allTripsForUsers = await Trip.findAll({
           include: [
             {
@@ -133,11 +134,12 @@ async function getAllTrips(req, res, next) {
 
           //the user wants the trips they are attending
         } else if (req.query.attending) {
-          const tripsAttending = allTripsForUsers.filter(trip => trip.members.find(member => memeber.id === userId))
+          const tripsAttending = allTripsForUsers.filter(trip => trip.members.find(member => member.id === userId))
           res.status(200).json({ results: tripsAttending })
           //the user wants the trips they are coordinating
         } else if (req.query.coordinating) {
-          const tripsCoordinating = allTripsForUsers.filter(trip => trip.organizer.id === userId)
+          const tripsCoordinating = allTripsForUsers.filter(trip => trip.organizer_user_id === userId)
+          res.status(200).json({resuts: tripsCoordinating})
         }
 
       }
@@ -176,15 +178,17 @@ async function getOneTrip(req, res, next) {
 
     const checkTrip = await Trip.findByPk(id, queryOptions)
     const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
+    const isOrganizer = !!(checkTrip.organizer_user_id === req.user.id);
+
     // console.log('user is on trip: ', onTrip);
 
     //if they are an admin or the coordinator of the trip
-    if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {
+    if (req.user.role_id === CREDENTIALS.ADMIN || isOrganizer) {
       queryOptions = {
         include: [{
           association: 'members',
           through: { attributes: [] },
-          attributes: ['id']
+          attributes: ['id', 'name', 'phone', 'email']
         },
         {
           association: 'organizer',
@@ -197,29 +201,28 @@ async function getOneTrip(req, res, next) {
         }]
       };
 
-      const checkTrip = await Trip.findByPk(id, queryOptions)
+      // const checkTrip = await Trip.findByPk(id, queryOptions)
 
-      const onTrip = !!checkTrip.members.find(member => member.id === req.user.id)
-      console.log(onTrip);
+      // console.log(onTrip);
 
-      //if they are an admin or the coordinator of the trip
-      if (req.user.role_id === 1 || (req.user.role_id === 2 && checkTrip.dataValues.organizer_user_id === req.user.id)) {
-        queryOptions = {
-          include: [{
-            association: 'members',
-            attributes: { exclude: ['password'] },
-            through: { attributes: [] }
-          },
-          {
-            association: 'organizer',
-            attributes: ['phone', 'name']
-          }]
-        }
-      }
+      // //if they are an admin or the coordinator of the trip
+      // if (req.user.role_id === CREDENTIALS.ADMIN || (req.user.role_id === CREDENTIALS.USER && checkTrip.dataValues.organizer_user_id === req.user.id)) {
+      //   queryOptions = {
+      //     include: [{
+      //       association: 'members',
+      //       attributes: { exclude: ['password'] },
+      //       through: { attributes: [] }
+      //     },
+      //     {
+      //       association: 'organizer',
+      //       attributes: ['phone', 'name']
+      //     }]
+      //   }
+      // }
 
     }
     //if they are a member of the trip
-    if (req.user.role_id === 2 && onTrip) {
+    if (req.user.role_id === CREDENTIALS.USER && onTrip) {
       queryOptions = {
         include: [{
           association: 'members',
@@ -244,7 +247,9 @@ async function getOneTrip(req, res, next) {
     //query trip events
 
     //if the person is not on the trip, only return the length of members.
-    if (req.user.role_id === 2 && !onTrip) {
+    if (req.user.role_id === CREDENTIALS.USER && !onTrip && !isOrganizer) {
+
+      //truncate the data for non-privileged viewers.
       foundTrip.dataValues.members = foundTrip.members.length;
     }
     // console.log(foundTrip.members);

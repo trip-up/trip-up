@@ -22,7 +22,7 @@ function ACL(requiredRole) {
       case CREDENTIALS.PRIVILEGED:
         if (req.params.trip_id) {
           const isOrganizer = checkOrganizer(req.params.trip_id, req.user.id);
-          const isAdmin = req.user.role_id === 1;
+          const isAdmin = req.user.role_id === CREDENTIALS.ADMIN;
           if (req.method === 'DELETE' && (isOrganizer || isAdmin) ) next()
           if (req.method === 'PUT' && (isOrganizer || isAdmin) ) next()
           if (req.method === 'GET') next() //what situations could get us here? //this is get one.
