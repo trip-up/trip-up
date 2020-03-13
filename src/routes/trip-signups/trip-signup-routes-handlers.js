@@ -19,11 +19,10 @@ async function signupForTrip(req, res, next) {
       user_id: req.body.user_id,
       approval: false,
     })
-    // console.log('approval pending', approvalPending)
-    res.status(201).json('Trip sign-up pending approval')
   } catch (err) {
-    next(err);
+    next('Approval pending for this trip');
   }
+  res.status(201).json('Trip sign-up pending approval')
 }
 
 /**
@@ -79,7 +78,6 @@ async function approveUser(req, res, next) {
     if (isCoordinator.length > 0) {
       console.log('in first if')
 
-
       // if approval value of true was given, it will update the users approval to true in TripSignup
       if (req.body.approval === true) {
         console.log('in set to true')
@@ -95,9 +93,8 @@ async function approveUser(req, res, next) {
         res.status(201).json('Signup Approved!');
       }
       // if the approval value is not true, it will delete the user from TripSignup
-    } 
-
-    if (req.body.approval === false) {
+    } else {
+    // if (req.body.approval === false) {
       console.log('in set to false')
       await TripSignup.destroy({
         where: {
