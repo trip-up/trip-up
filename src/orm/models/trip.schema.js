@@ -9,6 +9,7 @@
  * @param {*} end_day - end datetime for trip
  * @param {number} cost - cost for trip
  * @param {string} type - type for trip
+ * @param {string} organizer_user_id - user id of trip organizer
  * @returns {Object} Trip
  */
 const Sequelize = require('sequelize')

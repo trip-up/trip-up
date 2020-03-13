@@ -1,3 +1,7 @@
+/**
+ * @module generateToken
+ * @requires jwt
+ */
 const jwt = require('jsonwebtoken')
 const SECRET = process.env.SECRET
 const generateToken = function (id, name, email, role_id) {
