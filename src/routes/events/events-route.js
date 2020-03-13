@@ -2,7 +2,6 @@
  * @requires express
  * @module "events-route"
  * @description routes for events
- * @namespace eventRouter
  */
 
 const express = require('express')
@@ -11,11 +10,10 @@ const eventRouter = express.Router();
 const { addEvent, getEventsFromTrip, updateEvent, deleteEvent } = require('./events-route-handlers')
 
 /**
- *
  * @name create/event/for_trip
  * @function
  * @param {callback} addEvent
- * @example http post :3001/events/1 organizer_user_id=1 name='Go to beach with hank' start_day='2020-1-10' end_day='2020-1-15'
+ * @example http post :3001/events/<id> organizer_user_id=<id> name=<name> start_day=<day> end_day=<day>
  */
 eventRouter.post('/events/:trip_id', addEvent)
 
@@ -23,7 +21,7 @@ eventRouter.post('/events/:trip_id', addEvent)
  * @name get/events/for_trip
  * @function
  * @param {callback} getEventsFromTrip
- * @example http get :3001/events/1
+ * @example http get :3001/events/<id>
  */
 eventRouter.get('/events/:trip_id', getEventsFromTrip)
 

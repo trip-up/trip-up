@@ -94,72 +94,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="sequelize"><span class="type-signature">(constant) </span>sequelize<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Instantiate our sequelize object
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="orm_index.js.html">orm/index.js</a>, <a href="orm_index.js.html#line11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -170,7 +104,7 @@
     
 
     
-    <h4 class="name" id="module:"trip.schema""><span class="type-signature"></span>module:"trip.schema"<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="checkOrganizer"><span class="type-signature"></span>checkOrganizer<span class="signature">(trip_id, user_id)</span><span class="type-signature"></span></h4>
     
 
     
@@ -178,9 +112,7 @@
 
 
 <div class="description">
-    Export a function that can be called with a sequelize connection obj to instantiate the class Trip, which is a Sequelize Model.
-
-Add associate() prototype function, which can be called to add table associations.
+    return boolean describing if the user is the organizer of the trip they are requesting.
 </div>
 
 
@@ -189,6 +121,78 @@ Add associate() prototype function, which can be called to add table association
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>trip_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -224,7 +228,7 @@ Add associate() prototype function, which can be called to add table association
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="orm_models_trip.schema.js.html">orm/models/trip.schema.js</a>, <a href="orm_models_trip.schema.js.html#line13">line 13</a>
+        <a href="util_checkOrganizer.js.html">util/checkOrganizer.js</a>, <a href="util_checkOrganizer.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -260,7 +264,7 @@ Add associate() prototype function, which can be called to add table association
     
 
     
-    <h4 class="name" id="module:"user.schema""><span class="type-signature"></span>module:"user.schema"<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="errorHandler"><span class="type-signature"></span>errorHandler<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -268,9 +272,7 @@ Add associate() prototype function, which can be called to add table association
 
 
 <div class="description">
-    Export a function that can be called with a sequelize connection obj to instantiate the class User, which is a Sequelize Model.
-
-Add associate() prototype function, which can be called to add table associations.
+    Error handling routes 404 and 500
 </div>
 
 
@@ -314,7 +316,7 @@ Add associate() prototype function, which can be called to add table association
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="orm_models_user.schema.js.html">orm/models/user.schema.js</a>, <a href="orm_models_user.schema.js.html#line12">line 12</a>
+        <a href="middleware_errorHandlers.js.html">middleware/errorHandlers.js</a>, <a href="middleware_errorHandlers.js.html#line5">line 5</a>
     </li></ul></dd>
     
 
@@ -360,13 +362,13 @@ Add associate() prototype function, which can be called to add table association
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-_trip.schema_.html">"trip.schema"</a></li><li><a href="module-_user.schema_.html">"user.schema"</a></li></ul><h3>Global</h3><ul><li><a href="global.html#sequelize">sequelize</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-_events-route_.html">"events-route"</a></li><li><a href="module-_events-route-handlers_.html">"events-route-handlers"</a></li><li><a href="module-_message.schema_.html">"message.schema"</a></li><li><a href="module-_role.schema_.html">"role.schema"</a></li><li><a href="module-_roles-route_.html">"roles-route"</a></li><li><a href="module-_roles-route-handlers_.html">"roles-route-handlers"</a></li><li><a href="module-_trip.schema_.html">"trip.schema"</a></li><li><a href="module-_trip-signup-routes_.html">"trip-signup-routes"</a></li><li><a href="module-_trip-signup-routes-handlers_.html">"trip-signup-routes-handlers"</a></li><li><a href="module-_trip_has_user.schema_.html">"trip_has_user.schema"</a></li><li><a href="module-_trip_signup.schema_.html">"trip_signup.schema"</a></li><li><a href="module-_trips-route_.html">"trips-route"</a></li><li><a href="module-_trips-route-handler_.html">"trips-route-handler"</a></li><li><a href="module-_user.schema_.html">"user.schema"</a></li><li><a href="module-_user-route-handlers_.html">"user-route-handlers"</a></li><li><a href="module-_users-route_.html">"users-route"</a></li><li><a href="module-accessControlList.html">accessControlList</a></li><li><a href="module-basic_auth.html">basic_auth</a></li><li><a href="module-bearer_auth.html">bearer_auth</a></li><li><a href="module-generateToken.html">generateToken</a></li><li><a href="module-orm_index.html">orm/index</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrganizer">checkOrganizer</a></li><li><a href="global.html#errorHandler">errorHandler</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Mar 09 2020 15:00:05 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Mar 12 2020 18:15:27 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

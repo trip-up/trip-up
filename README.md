@@ -4,6 +4,8 @@
 ### We Are Deployed On 
 [https://trip-ups.herokuapp.com/](https://trip-ups.herokuapp.com/)
 
+### Documentation
+[Trip Up Api Docs](https://trip-up.github.io/trip-up/)
 
 ### What is Trip Up?
 Trip Up is an API to help you plan your group trips.  Once a user has signed up, they have the option to create a new trip.  Once they've created a new trip, they become the coordinator of that trip, giving them the ability to create new events related to their trip.  Other users have the option to see all available trips within the API and can signup for a trip of their choice.  The coordinator of the trip they signup for has the ability to approve or deny their signup.
@@ -42,10 +44,10 @@ Trip Up is an API to help you plan your group trips.  Once a user has signed up,
 
 
 ### Data Flow
-![UML](readme_assets/TripUpUML3.jpg)
+![UML](readme_assets/TripUpUML4.jpeg)
 
 #### DB relational diagram
-![diagram](readme_assets/TripUp_DB.png)
+![diagram](readme_assets/TripUp_DB3.png)
 
 ### Authors
  Tyler Sayvetz, Cait Rowland, Kevin Dreyer, and Susanna Lakey

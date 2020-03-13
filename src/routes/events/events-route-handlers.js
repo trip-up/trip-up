@@ -9,9 +9,8 @@ const { Event, Trip } = require('../../orm/index')
 * @param {*} req - request params with id of trip to add event to and request body with fields
 * @param {*} res - json of event added
 * @param {*} next 
+* @example http post :3001/events/<id> organizer_user_id=<id> name=<name> start_day=<day> end_day=<day>
 */
-
-// http post :3001/events/1 organizer_user_id=1 name='Go to beach with hank' start_day='2020-1-10' end_day='2020-1-15'
 async function addEvent(req, res, next) {
 
   const tripId = parseInt(req.params.trip_id)
@@ -68,10 +67,8 @@ async function getEventsFromTrip(req, res, next) {
  * @param {*} req - request params with id of event to update and request body with fields to edit
  * @param {*} res - results of update
  * @param {*} next 
+ * @example http PUT :3000/events/23 organizer_user_id=<organizer_user_id> name=<name-updating-to>
  */
-
-
-// http PUT :3000/events/23 organizer_user_id=<organizer_user_id> name=<name-updating-to>
 async function updateEvent(req, res, next) {
 
   // checks that the user at this route is the organizer of the trip at the id in params
@@ -103,10 +100,8 @@ async function updateEvent(req, res, next) {
  * @param {*} req - request params with id of event to delete
  * @param {*} res - results of delete
  * @param {*} next 
+ * @example http delete :3001/events/17 organizer_user_id=<organizer_user_id> trip_id=trip_id
  */
-
-
-// http delete :3001/events/17 organizer_user_id=<organizer_user_id> trip_id=trip_id
 async function deleteEvent(req, res, next) {
   // console.log('req param id', req.params.id)
   const eventId = req.params.event_id

@@ -1,10 +1,17 @@
 /**
  * @module bearer_auth
+ * @requires jwt
  */
 const jwt = require('jsonwebtoken')
 
 const SECRET= process.env.SECRET
 
+/**
+ * @function
+ * @param {*} req - authorization
+ * @param {*} res 
+ * @param {*} next 
+ */
 function bearerAuth (req, res, next) {
 //   check if we have an authorization header
   if (!req.headers.authorization) {

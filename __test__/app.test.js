@@ -253,6 +253,7 @@ describe('app', () => {
           const result = await mockRequest
             .put('/users/1 city=portland')
             .set('Authorization', `Bearer ${token}`)
+            console.log(token)
           expect(result.status).toBe(403);
         })
       })

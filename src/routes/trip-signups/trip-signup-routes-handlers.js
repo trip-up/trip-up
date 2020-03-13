@@ -1,12 +1,8 @@
-const { TripSignup, Trip } = require('../../orm/index');
-
-
-
-
 /**
  * @module "trip-signup-routes-handlers"
  * @description Callback functions for trip signup
  */
+const { TripSignup, Trip } = require('../../orm/index');
 
 /**
  * @function signupForTrip
@@ -15,7 +11,6 @@ const { TripSignup, Trip } = require('../../orm/index');
  * @param {*} next 
  * @example http POST :3000/trip-signups trip_id=<trip_id> user_id=<user_id>
  */
-
 async function signupForTrip(req, res, next) {
   const tripId = parseInt(req.params.id)
   try {
@@ -31,8 +26,13 @@ async function signupForTrip(req, res, next) {
     res.status(201).json('Trip sign-up pending approval')
 }
 
-
-// http GET :3000/trip-signups trip_id=<trip_id> organizer_user_id=<user_id_of_organizer>
+/**
+ * @function viewPendingSignups
+ * @param {*} req - organizer user id and trip id
+ * @param {*} res - pending signups for trip
+ * @param {*} next 
+ * @example http GET :3000/trip-signups trip_id=<trip_id> organizer_user_id=<user_id_of_organizer>
+ */ 
 async function viewPendingSignups(req, res, next) {
 
   const isCoordinator = await Trip.findAll({
@@ -55,18 +55,15 @@ async function viewPendingSignups(req, res, next) {
   }
 }
 
-// http PUT :3000/trip-signups organizer_user_id=<user_id_of_organizer> trip_id=<trip_id> user_id=<id_of_user_to_approve> approval=<approval-value-to-set>
-// approval=1 sets to true
-// approval=0 denies signup and deletes user from TripSignup
-
-
 /**
  * @function approveUser
+ * @description approval=1 sets to true
+ * <br> approval=0 denies signup and deletes user from TripSignup
  * @param {*} req 
  * @param {*} res
  * @param {*} next 
+ * @example http PUT :3000/trip-signups organizer_user_id=<user_id_of_organizer> trip_id=<trip_id> user_id=<id_of_user_to_approve> approval=<approval-value-to-set>
  */
-
 async function approveUser(req, res, next) {
   const tripId = parseInt(req.params.id)
   try {
@@ -81,7 +78,6 @@ async function approveUser(req, res, next) {
     // if they are, it will return an array with length greater than 0
     if (isCoordinator.length > 0) {
       console.log('in first if')
-
 
       // if approval value of true was given, it will update the users approval to true in TripSignup
       if (req.body.approval === 'true') {

@@ -1,4 +1,6 @@
-// Error handling routes 404 and 500
+/**
+ * Error handling routes 404 and 500
+ */
 
 function errorHandler (err, req, res, next) {
   console.log('___SERVER ERROR___', err)
