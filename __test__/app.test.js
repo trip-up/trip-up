@@ -61,8 +61,6 @@ describe('app', () => {
           .post('/signup')
           .send(newUser);
         token = result.body.token;
-        // console.log('token', token);
-
         expect(result.status).toBe(201);
       })
     })
@@ -81,10 +79,10 @@ describe('app', () => {
           .post('/trips')
           .set('Authorization', `Bearer ${token}`)
           .send(newTrip);
-          tripId = result.body.trip_created.id
-          // console.log('result.body during post',result.body)
-          // console.log('tripId',tripId)
-          
+        tripId = result.body.trip_created.id
+        // console.log('result.body during post',result.body)
+        // console.log('tripId',tripId)
+
         expect(result.status).toBe(201);
       })
 
@@ -128,8 +126,8 @@ describe('app', () => {
         const result = await mockRequest
           .post(`/events/3`)
           .send(newEvent)
-          // .set('Authorization', `Bearer ${token}`)
-          eventId = result.body.id
+        // .set('Authorization', `Bearer ${token}`)
+        eventId = result.body.id
 
         expect(result.status).toBe(201);
 
@@ -219,6 +217,76 @@ describe('app', () => {
           .set('Authorization', `Bearer ${token}`)
           .send(userToApprove)
         expect(result.status).toBe(201);
+      })
+    })
+
+    describe('/users', () => {
+      describe('/users', () => {
+        it('successfully denies request to get all all users in the database if not an admin', async () => {
+          const result = await mockRequest
+            .get('/users')
+            .set('Authorization', `Bearer ${token}`)
+          expect(result.status).toBe(403);
+        })
+        it('successfully gets all users from database if the requested is an admin', async () => {
+          const result = await mockRequest
+            .get('/users')
+            .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiY2FpdEBjYWl0LmNvbSIsIm5hbWUiOiJjYWl0Iiwicm9sZV9pZCI6MSwiaWF0IjoxNTg0MDQ1NjAyfQ.KxUDv217TyAcKBwVoVSKTF3-mPi-vFdbVX5qz2YRtw8')
+          expect(result.status).toBe(200)
+        })
+        it('Denies request to get one user unless requestor is admin', async () => {
+          const result = await mockRequest
+            .get('/users/3')
+            .set('Authorization', `Bearer ${token}`)
+          expect(result.status).toBe(403);
+
+        })
+        it('Successfuly returns one users if requestor is admin', async () => {
+          const result = await mockRequest
+            .get('/users/3')
+            .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiY2FpdEBjYWl0LmNvbSIsIm5hbWUiOiJjYWl0Iiwicm9sZV9pZCI6MSwiaWF0IjoxNTg0MDQ1NjAyfQ.KxUDv217TyAcKBwVoVSKTF3-mPi-vFdbVX5qz2YRtw8')
+          expect(result.status).toBe(200)
+        })
+      })
+      describe('update /users/:id', () => {
+        it('Denies update if requestor is not an admin or user whos record is being updated', async () => {
+          const result = await mockRequest
+            .put('/users/1 city=portland')
+            .set('Authorization', `Bearer ${token}`)
+          expect(result.status).toBe(403);
+        })
+      })
+      it('Successful updates if requestor is admin', async () => {
+        const result = await mockRequest
+          .put('/users/1 city=chicago')
+          .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiY2FpdEBjYWl0LmNvbSIsIm5hbWUiOiJjYWl0Iiwicm9sZV9pZCI6MSwiaWF0IjoxNTg0MDQ1NjAyfQ.KxUDv217TyAcKBwVoVSKTF3-mPi-vFdbVX5qz2YRtw8')
+        expect(result.status).toBe(200);
+      })
+      it('Successful updates if requestor is user whos record is being updated', async () => {
+        const result = await mockRequest
+          .put('/users/13 city=portland')
+          .set('Authorization', `Bearer ${token}`)
+        expect(result.status).toBe(200);
+      })
+      describe('delete /users/:id', () => {
+        it('Denies delete if requestor is not admin or users who\'s record is being deleted', async () => {
+          const result = await mockRequest
+            .delete('/users/1')
+            .set('Authorization', `Bearer ${token}`)
+          expect(result.status).toBe(403);
+        })
+        it('Successfully deletes user record if requestor is an admin', async () => {
+          const result = await mockRequest
+            .put('/users/1 city=chicago')
+            .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiY2FpdEBjYWl0LmNvbSIsIm5hbWUiOiJjYWl0Iiwicm9sZV9pZCI6MSwiaWF0IjoxNTg0MDQ1NjAyfQ.KxUDv217TyAcKBwVoVSKTF3-mPi-vFdbVX5qz2YRtw8')
+          expect(result.status).toBe(200);
+        })
+        it('Successfully deletes user record if requestor is the user whos record is being delete', async () => {
+          const result = await mockRequest
+            .put('/users/13 city=chicago')
+            .set('Authorization', `Bearer ${token}`)
+          expect(result.status).toBe(200);
+        })
       })
     })
   })

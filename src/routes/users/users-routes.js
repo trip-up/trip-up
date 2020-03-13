@@ -11,7 +11,7 @@ const authRouter = express.Router();
 const basicAuth = require('../../middleware/auth/basic_auth')
 const bearerAuth = require('../../middleware/auth/bearer_auth')
 
-const {signUp, signIn, getAllUsers, deleteUser, updateUser} = require('./user-route-handlers')
+const {signUp, signIn, getAllUsers, deleteUser, updateUser, getOneUser} = require('./user-route-handlers')
 
 /**
  * @name signUpUsers
