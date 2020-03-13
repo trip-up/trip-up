@@ -44,6 +44,7 @@ async function authenticateBasic(email, password) {
     const userFound = await User.findOne({
         where: { email: email }
     })
+    if (userFound === null) return 
     const correctPassword = await bcrypt.compare(password, userFound.password)
     return correctPassword ? userFound.dataValues : false;
 }
