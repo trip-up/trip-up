@@ -28,7 +28,7 @@ async function signUp(req, res, next) {
     })
   const { id, name, email, role_id } = newUser[0].dataValues
   const token = generateToken(id, name, email, role_id)
-  res.status(201).json({ token })
+  res.status(201).json({ id, token })
 }
 
 /**
@@ -38,7 +38,7 @@ async function signUp(req, res, next) {
  * @param {*} next 
  */
 async function signIn(req, res, next) {
-  res.status(200).json({ token: req.token })
+  res.status(200).json({ id: req.user.id , token: req.token})
 }
 
 /**

@@ -284,7 +284,7 @@ async function deleteTrip(req, res, next) {
 async function updateTrip(req, res, next) {
   try {
     // admin or is coordinator
-    await Trip.updateTrip(
+    await Trip.update(
       {
         name: req.body.name,
         destination: req.body.destination,

@@ -87,7 +87,7 @@ async function approveUser(req, res, next) {
           approval: 1
         }, {
           where: {
-            trip_id: req.body.trip_id,
+            trip_id: tripId,
             user_id: req.body.user_id,
           },
         })
@@ -101,7 +101,7 @@ async function approveUser(req, res, next) {
       console.log('in set to false')
       await TripSignup.destroy({
         where: {
-          trip_id: req.body.trip_id,
+          trip_id: tripId,
           user_id: req.body.user_id,
         }
       });
