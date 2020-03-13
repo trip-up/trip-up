@@ -2,7 +2,6 @@
  * @requires express
  * @module "trip-signup-routes"
  * @description routes for trip signup
- * @namespace tripSignupRouter
  */
 const express = require('express')
 const tripSignupRouter = express.Router();

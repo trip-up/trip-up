@@ -1,3 +1,8 @@
+/**
+ * @requires Sequalize
+ * @module "trip_signup.schema"
+ * @returns {object} TripSignup
+ */
 const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {

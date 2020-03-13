@@ -2,7 +2,6 @@
  * @requires express
  * @module "roles-route"
  * @description CRUD routes for roles
- * @namespace roleRouter
  */
 const express = require('express')
 const roleRouter = express.Router();
@@ -17,7 +16,7 @@ const { addRole, getRole, updateRole, deleteRole } = require('./roles-route-hand
  * @name create/roles
  * @function
  * @param {callback} addRole
- * @example http post :3000/roles name=test42 create=true read=true update=true delete=false
+ * @example http post :3000/roles name=<name> create=<bol> read=<bol> update=<bol> delete=<bol>
  */
 roleRouter.post('/roles', bearerAuth, ACL(CREDENTIALS.ADMIN), addRole)
 
@@ -33,7 +32,7 @@ roleRouter.get('/roles', bearerAuth, ACL(CREDENTIALS.ADMIN), getRole)
  * @name put/roles
  * @function
  * @param {callback} updateRole
- * @example http put :3000/roles/42 name=test42 create=true read=true update=true delete=false
+ * @example http put :3000/roles/<id> name=<name> create=<bol> read=<bol> update=<bol> delete=<bol>
  */
 roleRouter.put('/roles/:id', bearerAuth, ACL(CREDENTIALS.ADMIN), updateRole)
 
@@ -41,7 +40,7 @@ roleRouter.put('/roles/:id', bearerAuth, ACL(CREDENTIALS.ADMIN), updateRole)
  * @name delete/roles
  * @function
  * @param {callback} deleteRole
- * @example http delete :3000/roles/42
+ * @example http delete :3000/roles/<id>
  */
 roleRouter.delete('/roles/:id', bearerAuth, ACL(CREDENTIALS.ADMIN), deleteRole)
 

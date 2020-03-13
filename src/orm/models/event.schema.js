@@ -6,6 +6,7 @@
  * @param {string} name - name of event
  * @param {string} start_day - start_day of event
  * @param {string} end_day - end_day of event
+ * @param {string} trip_id - id of trip event belongs to
  * @returns {object} Event
  */
 const Sequelize = require('sequelize')

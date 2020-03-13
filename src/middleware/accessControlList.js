@@ -1,3 +1,8 @@
+/**
+ * @module accessControlList
+ * @requires checkOrganizer
+ * @requires serverSettings
+ */
 const { Trip } = require('../orm/index')
 const checkOrganizer = require('../util/checkOrganizer')
 const { CREDENTIALS, ERRORS }  = require('../../config/serverSettings')

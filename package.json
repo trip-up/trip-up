@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json",
+    "jsdoc": "jsdoc ./ -c ./docs/config/jsdoc.config.json",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },

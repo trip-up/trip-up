@@ -1,4 +1,4 @@
-/**woooooo
+/**
  * @module "trips-route-handler"
  * @description Callback functions for Trip routes
  */
@@ -256,6 +256,12 @@ async function getOneTrip(req, res, next) {
   }
 }
 
+/**
+ * @function deleteTrip
+ * @param {*} req - params with trip id
+ * @param {*} res 
+ * @param {*} next 
+ */
 async function deleteTrip(req, res, next) {
 
   try {
@@ -269,6 +275,12 @@ async function deleteTrip(req, res, next) {
   }
 }
 
+/**
+ * @function updateTrip
+ * @param {*} req - request paramas of id of trip and body with fields to update
+ * @param {*} res 
+ * @param {*} next 
+ */
 async function updateTrip(req, res, next) {
   try {
     // admin or is coordinator

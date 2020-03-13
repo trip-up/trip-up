@@ -38,7 +38,8 @@
     <div class="container-overview">
     
         
-            <div class="description">"orm/models/role.schema.js"</div>
+            <div class="description">Export a function that can be called with a sequelize connection obj to instantiate the class Event, which is a Sequelize Model.
+<br> Add associate() prototype function, which can be called to add table associations.</div>
         
 
         
@@ -95,20 +96,20 @@
 
             
 
-            <td class="description last">for role</td>
+            <td class="description last">name of event</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>create</code></td>
+                <td class="name"><code>start_day</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
             
@@ -118,20 +119,20 @@
 
             
 
-            <td class="description last">can role create</td>
+            <td class="description last">start_day of event</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>read</code></td>
+                <td class="name"><code>end_day</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
             
@@ -141,20 +142,20 @@
 
             
 
-            <td class="description last">can role read</td>
+            <td class="description last">end_day of event</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>update</code></td>
+                <td class="name"><code>trip_id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
             
@@ -164,30 +165,7 @@
 
             
 
-            <td class="description last">can role update</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>delete</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">can role delete</td>
+            <td class="description last">id of trip event belongs to</td>
         </tr>
 
     
@@ -228,7 +206,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="orm_models_role.schema.js.html">orm/models/role.schema.js</a>, <a href="orm_models_role.schema.js.html#line1">line 1</a>
+        <a href="orm_models_event.schema.js.html">orm/models/event.schema.js</a>, <a href="orm_models_event.schema.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -253,6 +231,298 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Event
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:Sequalize</li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">name of event</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>start_day</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">start_day of event</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>end_day</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">end_day of event</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>trip_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">id of trip event belongs to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="orm_models_event.schema.js.html">orm/models/event.schema.js</a>, <a href="orm_models_event.schema.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Event
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -297,13 +567,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-_role.schema_.html">"role.schema"</a></li><li><a href="module-_trip.schema_.html">"trip.schema"</a></li><li><a href="module-_user.schema_.html">"user.schema"</a></li><li><a href="module-orm_index.html">orm/index</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-_events-route_.html">"events-route"</a></li><li><a href="module-_events-route-handlers_.html">"events-route-handlers"</a></li><li><a href="module-_message.schema_.html">"message.schema"</a></li><li><a href="module-_role.schema_.html">"role.schema"</a></li><li><a href="module-_roles-route_.html">"roles-route"</a></li><li><a href="module-_roles-route-handlers_.html">"roles-route-handlers"</a></li><li><a href="module-_trip.schema_.html">"trip.schema"</a></li><li><a href="module-_trip-signup-routes_.html">"trip-signup-routes"</a></li><li><a href="module-_trip-signup-routes-handlers_.html">"trip-signup-routes-handlers"</a></li><li><a href="module-_trip_has_user.schema_.html">"trip_has_user.schema"</a></li><li><a href="module-_trip_signup.schema_.html">"trip_signup.schema"</a></li><li><a href="module-_trips-route_.html">"trips-route"</a></li><li><a href="module-_trips-route-handler_.html">"trips-route-handler"</a></li><li><a href="module-_user.schema_.html">"user.schema"</a></li><li><a href="module-_user-route-handlers_.html">"user-route-handlers"</a></li><li><a href="module-_users-route_.html">"users-route"</a></li><li><a href="module-accessControlList.html">accessControlList</a></li><li><a href="module-basic_auth.html">basic_auth</a></li><li><a href="module-bearer_auth.html">bearer_auth</a></li><li><a href="module-generateToken.html">generateToken</a></li><li><a href="module-orm_index.html">orm/index</a></li></ul><h3>Global</h3><ul><li><a href="global.html#checkOrganizer">checkOrganizer</a></li><li><a href="global.html#errorHandler">errorHandler</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Mar 09 2020 15:47:52 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Mar 12 2020 17:59:57 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

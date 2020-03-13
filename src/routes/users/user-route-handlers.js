@@ -1,10 +1,19 @@
+/**
+ * @module "user-route-handlers"
+ * @description Callback functions for User routes
+ */
 const { User } = require('../../orm/index')
 const bcrypt = require('bcrypt')
 const generateToken = require('../../util/generateToken')
 
 const defaultRole = process.env.DEFAULTROLE
 
-//Sign up 
+/**
+ * @function signUp
+ * @param {*} req - request body with user info
+ * @param {*} res - user token
+ * @param {*} next 
+ */
 async function signUp(req, res, next) {
   const newUser = await User
     .findOrCreate({
@@ -22,12 +31,22 @@ async function signUp(req, res, next) {
   res.status(201).json({ token })
 }
 
-//Sign In
+/**
+ * @function signIn
+ * @param {*} req 
+ * @param {*} res - user Token
+ * @param {*} next 
+ */
 async function signIn(req, res, next) {
   res.status(200).json({ token: req.token })
 }
 
-//Get All Users 
+/**
+ * @function getAllUsers
+ * @param {*} req - request with user role
+ * @param {*} res 
+ * @param {*} next 
+ */
 async function getAllUsers(req, res, next) {
   if(req.user.role_id !== 1) {
     res.status(403).json('You do not have authorization')
@@ -39,7 +58,12 @@ async function getAllUsers(req, res, next) {
   }
 }
 
-//Update User
+/**
+ * @function updateUser
+ * @param {*} req - request params of user and body with info
+ * @param {*} res 
+ * @param {*} next 
+ */
 async function updateUser(req, res, next) {
   const id = parseInt(req.params.id)
   let record = req.body
@@ -66,7 +90,12 @@ async function updateUser(req, res, next) {
   }
 }
 
-//Delete User
+/**
+ * @function deleteUser
+ * @param {*} req - request params with id of user
+ * @param {*} res 
+ * @param {*} next 
+ */
 async function deleteUser(req, res, next) {
   const id = parseInt(req.params.id)
 
