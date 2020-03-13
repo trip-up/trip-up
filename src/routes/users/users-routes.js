@@ -33,7 +33,7 @@ authRouter.post('/signin', basicAuth, signIn)
 /**
  * @name GetAllUsers
  * @function
- * @param {callback} basicAuth
+ * @param {callback} bearerAuth
  * @param {callback} getAllUsers
  * @example format commmand line: http get :3000/users 'Authoriation: Bearer TOKEN'
  */
@@ -42,16 +42,25 @@ authRouter.get('/users', bearerAuth, getAllUsers)
 /**
  * @name UpdateUser
  * @function
- * @param {callback} basicAuth
+ * @param {callback} bearerAuth
  * @param {callback} updateUser
  * @example format commmand line: http put :3000/users/USERID key:newValue 'Authorizaiton: Bearer TOKEN'
  */
 authRouter.put('/users/:id', bearerAuth, updateUser)
 
 /**
+ * @name GetOneUser
+ * @function
+ * @param {callback} bearerAuth
+ * @param {callback} getOneUser
+ * @example format commmand line: http get :3000/users/id 'Authoriation: Bearer TOKEN'
+ */
+authRouter.get('/users/:id', bearerAuth, getOneUser)
+
+/**
  * @name DeleteUser
  * @function
- * @param {callback} basicAuth
+ * @param {callback} bearerAuth
  * @param {callback} deleteUser
  * @example format commmand line: http delete :3000/users/USERID 'Authorizaiton: Bearer TOKEN'
  */
