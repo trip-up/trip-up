@@ -34,6 +34,27 @@ async function createTrip(req, res, next) {
 }
 
 /**
+ * @function _AllTripsForAnonymous
+ * @description Helper function for Anonymous get trips route
+ * @returns all trips with end_day, members, name, same_day
+ */
+async function _AllTripsForAnonymous() {
+  const allTripsForAnonymous = await Trip.findAll({
+    include:
+    {
+      association: 'members',
+      attributes: ['id']
+    },
+    attributes: ['name', 'start_day', 'end_day']
+  })
+  allTripsForAnonymous.forEach(trip => {
+    trip.dataValues.members = trip.members.length
+    trip.memebers = trip.members.length
+  })
+  return allTripsForAnonymous
+}
+
+/**
  * @function getAllTrips
  * @description Get all trips is funny beacuse there are several scenarios we could be talking about here:
  * <br> 1. A user is trying to get all of the trips they are going on.
@@ -47,20 +68,10 @@ async function createTrip(req, res, next) {
 async function getAllTrips(req, res, next) {
   // if not a member
   if (!req.user) {
-    const allTripsForAnonymous = await Trip.findAll({
-      include:
-      {
-        association: 'members',
-        attributes: ['id']
-      },
-      attributes: ['name', 'start_day', 'end_day']
-    })
-    console.log(allTripsForAnonymous);
-    allTripsForAnonymous.forEach(trip => {
-      trip.dataValues.members = trip.members.length
-      trip.memebers = trip.members.length
-    })
-    res.status(200).json({ results: allTripsForAnonymous })
+    _AllTripsForAnonymous()
+      .then(result => {
+        res.status(200).json( {results: result} )
+      })
   } else {
     // if a user
     const userId = req.user.id;
