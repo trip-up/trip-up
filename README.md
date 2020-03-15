@@ -25,9 +25,9 @@ Trip Up is an API to help you plan your group trips.  Once a user has signed up,
 
 * Install [mysql](https://www.mysql.com/downloads/)
 * Install [httpie](https://httpie.org/) to interact with the API
-* `npm i express, sequelize, jsonwebtoken, dotenv`
+* `npm i` to install all dependencies.
 * run `node index.js` to start server and connect to database
-
+* Create a .env with PORT, DB_PASSWORD, SECRET, and DEFAULTROLE=2
 
 ### Usage
 * As a user you can: 
