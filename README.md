@@ -50,7 +50,7 @@ Trip Up is an API to help you plan your group trips.  Once a user has signed up,
       ![Create Trip](readme_assets/create-trip.png)
 
   * See a list of all trips available: 
-      * Input: `$ http GET :3000/trips "Authorization: Bearer <token>`
+      * Input: `$ http GET :3000/trips "Authorization: Bearer <token>"`
       * Output: A list of all trips available to signup for
 
       ![List Trips](readme_assets/list-trips.png)
@@ -63,7 +63,7 @@ Trip Up is an API to help you plan your group trips.  Once a user has signed up,
       ![Signup for Trip](readme_assets/signup-trip.png)
 `
   * See a list of trips you have signed up for: 
-      * Input: `$ http GET :3000/trips?attending=true "Authorization: Bearer <token>`
+      * Input: `$ http GET :3000/trips?attending=true "Authorization: Bearer <token>"`
       * Output: List of trips signed up and approved for
 
       ![List of Trips](readme_assets/demo5.png)
@@ -110,7 +110,7 @@ Trip Up is an API to help you plan your group trips.  Once a user has signed up,
 
 * As an Admin you can:
     * See a list of all trips with all user details:
-      * Input: `$ http GET :3000/trips "Authorization: Bearer <admin-token>`
+      * Input: `$ http GET :3000/trips "Authorization: Bearer <admin-token>"`
       * Output: List of details on all trips and all users signed up for trips
 
       ![See All Admin](readme_assets/demo6.png)
