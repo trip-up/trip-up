@@ -22,8 +22,8 @@ async function signupForTrip(req, res, next) {
   } catch (err) {
     next('already signed up for this trip!');
   }
-    // console.log('approval pending', approvalPending)
-    res.status(201).json('Trip sign-up pending approval')
+  // console.log('approval pending', approvalPending)
+  res.status(201).json('Trip sign-up pending approval')
 }
 
 /**
@@ -32,7 +32,7 @@ async function signupForTrip(req, res, next) {
  * @param {*} res - pending signups for trip
  * @param {*} next 
  * @example http GET :3000/trip-signups trip_id=<trip_id> organizer_user_id=<user_id_of_organizer>
- */ 
+ */
 async function viewPendingSignups(req, res, next) {
 
   const isCoordinator = await Trip.findAll({
